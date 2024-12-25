@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import './Login.css'; // Include this CSS file for styling
 
 const Login = () => {
     const [formData, setFormData] = useState({ email: '', password: '' });
     const [loading, setLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
 
-    // Handle form input changes
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prevData) => ({
@@ -15,7 +15,6 @@ const Login = () => {
         }));
     };
 
-    // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
@@ -24,11 +23,7 @@ const Login = () => {
         try {
             const response = await axios.post('http://localhost:5000/api/auth/login', formData);
             console.log('User logged in:', response.data);
-
-            // Save the JWT token in localStorage
             localStorage.setItem('authToken', response.data.token);
-
-            // Redirect to the dashboard or home page
             window.location.href = '/dashboard';
         } catch (error) {
             console.error('Error during login:', error);
@@ -40,29 +35,39 @@ const Login = () => {
 
     return (
         <div className="login-container">
-            <h2>Login</h2>
-            <form onSubmit={handleSubmit}>
-                <input
-                    type="email"
-                    name="email"
-                    placeholder="Email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                />
-                <input
-                    type="password"
-                    name="password"
-                    placeholder="Password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    required
-                />
-                <button type="submit" disabled={loading}>
-                    {loading ? 'Logging in...' : 'Login'}
-                </button>
-            </form>
-            {errorMessage && <p>{errorMessage}</p>}
+            <div className="login-card">
+                <h2>Expense Tracker Login</h2>
+                <p>Track your expenses effortlessly</p>
+                <form onSubmit={handleSubmit} className="login-form">
+                    {errorMessage && <p className="error-message">{errorMessage}</p>}
+                    <div className="form-group">
+                        <input
+                            type="email"
+                            name="email"
+                            placeholder="Enter your email"
+                            value={formData.email}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <input
+                            type="password"
+                            name="password"
+                            placeholder="Enter your password"
+                            value={formData.password}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                    <button type="submit" className="btn-submit" disabled={loading}>
+                        {loading ? 'Logging in...' : 'Login'}
+                    </button>
+                </form>
+                <p className="signup-link">
+                    Don’t have an account? <a href="/signup">Sign up here</a>
+                </p>
+            </div>
         </div>
     );
 };
