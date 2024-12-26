@@ -16,7 +16,8 @@ body {
     align-items: center;
     width: 100%;
     max-width: 1200px;
-    padding: 15px;
+    padding: 140px;
+    box-sizing: border-box; /* Ensures padding doesn't cause overflow */
 }
 
 .login-card {
@@ -101,4 +102,41 @@ body {
 
 .signup-link a:hover {
     text-decoration: underline;
+}
+
+/* Media Query for Mobile Responsiveness */
+@media screen and (max-width: 768px) {
+    body {
+        padding: 0 20px; /* Adds padding on sides to prevent content from touching edges */
+    }
+
+    .login-container {
+        padding: 130px 20px; /* Reduces padding for smaller screens */
+    }
+
+    .login-card {
+        padding: 20px;
+        max-width: 100%;
+    }
+
+    .login-card h2 {
+        font-size: 20px;
+    }
+
+    .btn-submit {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .form-group input {
+        font-size: 14px;
+    }
+
+    .error-message {
+        font-size: 12px;
+    }
+
+    .signup-link {
+        font-size: 12px;
+    }
 }

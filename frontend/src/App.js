@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import Signup from "./pages/Signup"; // Import Signup page
 import Login from "./pages/Login"; // Import Login page
 import Dashboard from "./pages/Dashboard";
+import Splash from "./pages/Splash";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
@@ -17,6 +18,7 @@ function App() {
             <Routes>
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/login" element={<Login />} />
+                <Route path="/" element={<Splash />} />
                 <Route
                     path="/dashboard"
                     element={

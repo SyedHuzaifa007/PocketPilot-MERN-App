@@ -19,6 +19,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 50px;
+    padding-top: 80px; /* Adjusted padding to avoid overlap with navbar */
 }
 
 /* Navbar */
@@ -28,33 +29,25 @@ body {
     align-items: center;
     background-color: #2c3e50;
     color: white;
-    padding: 30px 40px; /* Increased padding for height */
+    padding: 30px 50px; /* Adjusted padding for height */
     position: fixed;
     top: 0;
-    left: auto;
-    right: 0;
+    left: -20px; /* Shift the left side by 20px */
+    right: -20px; /* Shift the right side by 20px */
+    width: calc(100% + 40px); /* Increase width by 40px (20px each side) */
     z-index: 100;
-    width: 120%; /* Ensures the navbar takes full width */
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
+
 /* Navbar Heading */
 .navbar-heading {
-    font-size: 36px; /* Increased font size */
+    font-size: 36px;
     font-weight: bold;
-    text-align: left;
+    text-align: center;
 }
 
-/* Navbar Right Section */
-.navbar-right {
-    position: relative;
-    display: flex;
-    justify-content: flex-end;
-}
-
-
-/* For removing any margin from the top */
-
+/* Dropdown Menu */
 .dropdown-toggle {
     background: none;
     border: none;
@@ -96,7 +89,7 @@ body {
 /* Greeting Text Styling */
 .greeting-message {
     text-align: center;
-    margin-top: 10px; /* Adjusted space below navbar */
+    margin-top: 120px; /* Increased margin to push the greeting below the navbar */
 }
 
 .gradient-text {
@@ -123,24 +116,23 @@ body {
 /* Cards Section */
 .cards-container {
     display: flex;
-    justify-content: space-between;  /* Distribute space evenly between cards */
-    gap: 20px; /* Space between the cards */
-    margin-top: 0px; /* Adjusted to prevent overlapping with fixed navbar */
-    flex-wrap: wrap; /* Allow wrapping if screen size is smaller */
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
 }
 
 .card {
-    flex: 1 1 22%; /* Allow each card to take up to 22% of the container width */
+    flex: 1 1 22%;
     background-color: white;
     padding: 20px;
-    border-radius: 12px;
+    border-radius: 15px;
     box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);
     text-align: center;
     font-size: 18px;
     font-weight: bold;
     color: #2d3436;
-    min-width: 240px; /* Minimum width for each card */
-    max-width: 260px; /* Maximum width for each card */
+    min-width: 240px;
+    max-width: 260px;
 }
 
 .card h3 {
@@ -153,7 +145,6 @@ body {
     color: #2ecc71;
     font-weight: 700;
 }
-
 
 /* Buttons Section */
 .buttons-container {
@@ -186,7 +177,7 @@ body {
 /* Graphs Section */
 .graphs-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); /* Increased size */
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
     gap: 25px;
 }
 
@@ -198,7 +189,7 @@ body {
     text-align: center;
     color: #2d3436;
     font-size: 16px;
-    height: 300px; /* Increased height */
+    height: 300px;
 }
 
 .graph-placeholder {

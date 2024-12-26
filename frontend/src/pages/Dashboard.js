@@ -1,18 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { redirect } from 'react-router-dom';
-import { FaCogs, FaSignOutAlt, FaChartLine, FaPlusCircle } from 'react-icons/fa';
+import { FaCogs, FaSignOutAlt, FaChartLine, FaPlusCircle, FaChartBar, FaChartPie } from 'react-icons/fa';
 import './Dashboard.css';
 
 const Dashboard = () => {
     const [greeting, setGreeting] = useState('');
 
     const handleLogout = () => {
+    const confirmLogout = window.confirm("Are you sure you want to log out?");
+    if (confirmLogout) {
         // You can clear localStorage or sessionStorage here if needed
         // localStorage.removeItem('user'); // Example
 
         // Redirect to login page
-        redirect('/pages/Login');
-    };
+        window.location.href = '/login';
+    }
+};
+
 
     // Function to set the greeting based on the time of day
     const setTimeGreeting = () => {
@@ -88,10 +91,10 @@ const Dashboard = () => {
                     <FaChartLine /> Past Records
                 </button>
                 <button className="action-button">
-                    <FaChartLine /> Generate Report
+                    <FaChartBar /> Generate Report
                 </button>
                 <button className="action-button">
-                    <FaChartLine /> Generate Analysis
+                    <FaChartPie /> Generate Analysis
                 </button>
             </div>
 
