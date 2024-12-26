@@ -19,33 +19,37 @@ body {
     display: flex;
     flex-direction: column;
     gap: 50px;
-    padding-top: 80px; /* Adjusted padding to avoid overlap with navbar */
+    padding-top: 470px; /* Adjusted padding to avoid overlap with navbar */
 }
 
 /* Navbar */
 .navbar {
     display: flex;
-    justify-content: space-between;
+    justify-content: center; /* Center content horizontally in the navbar */
     align-items: center;
     background-color: #2c3e50;
     color: white;
-    padding: 30px 50px; /* Adjusted padding for height */
+    padding: 15px 30px; /* Adjusted padding for better spacing */
     position: fixed;
     top: 0;
-    left: -20px; /* Shift the left side by 20px */
-    right: -20px; /* Shift the right side by 20px */
-    width: calc(100% + 40px); /* Increase width by 40px (20px each side) */
+    left: 0; /* Corrected the left offset to 0 */
+    width: 100%; /* Full width of the screen */
     z-index: 100;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border: 5px solid transparent; /* Transparent border to allow gradient border */
+    border-image: linear-gradient(45deg, #434242, #614485) 1; /* Gradient border */
 }
-
 
 /* Navbar Heading */
 .navbar-heading {
     font-size: 36px;
+    font-family: 'Poppins', sans-serif;
     font-weight: bold;
     text-align: center;
+    margin: 10px 400px; /* Ensure the text itself is centered */
+    flex: 1; /* Make the heading take up available space */
 }
+
 
 /* Dropdown Menu */
 .dropdown-toggle {
@@ -89,7 +93,7 @@ body {
 /* Greeting Text Styling */
 .greeting-message {
     text-align: center;
-    margin-top: 120px; /* Increased margin to push the greeting below the navbar */
+    margin-top: 0px; /* Increased margin to push the greeting below the navbar */
 }
 
 .gradient-text {
