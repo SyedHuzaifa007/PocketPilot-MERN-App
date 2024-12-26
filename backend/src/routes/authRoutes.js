@@ -9,7 +9,6 @@ const router = express.Router();
 
 // Middleware
 app.use(express.json());
-app.use(cors({ origin: "http://192.168.68.108:3000", credentials: true }));
 
 // Signup
 router.post("/signup", async (req, res) => {
