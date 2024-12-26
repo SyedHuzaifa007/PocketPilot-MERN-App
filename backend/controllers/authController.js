@@ -1,5 +1,7 @@
 const User = require("../src/models/User");
 const jwt = require("jsonwebtoken");
+const cors = require('cors');
+app.use(cors({ origin: 'http://192.168.68.108:3000', credentials: true }));
 
 // Generate JWT
 const generateToken = (id) => {
@@ -65,6 +67,7 @@ const login = async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: "Something went wrong", error });
     }
+    localStorage.setItem('authToken', token);  // Store token after login
 };
 
 module.exports = { signup, login };

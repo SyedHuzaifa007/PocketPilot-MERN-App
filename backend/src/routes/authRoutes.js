@@ -1,34 +1,29 @@
-// src/routes/authRoutes.js
-
 const express = require("express");
+const cors = require("cors");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const User = require("../models/User");  // Correct relative path // Assuming you have a User model
+const User = require("../models/User");
 
+const app = express();
 const router = express.Router();
 
-// Signup route
+// Middleware
+app.use(express.json());
+app.use(cors({ origin: "http://192.168.68.108:3000", credentials: true }));
+
+// Signup
 router.post("/signup", async (req, res) => {
     const { username, email, password } = req.body;
 
     try {
-        // Check if user exists
         const userExists = await User.findOne({ email });
         if (userExists) {
             return res.status(400).json({ message: "User already exists" });
         }
 
-        // Hash password
         const hashedPassword = await bcrypt.hash(password, 10);
+        const newUser = new User({ username, email, password: hashedPassword });
 
-        // Create new user
-        const newUser = new User({
-            username,
-            email,
-            password: hashedPassword,
-        });
-
-        // Save user to database
         await newUser.save();
 
         res.status(201).json({ message: "User created successfully" });
@@ -38,25 +33,22 @@ router.post("/signup", async (req, res) => {
     }
 });
 
-// Login route
+// Login
 router.post("/login", async (req, res) => {
     const { email, password } = req.body;
 
     try {
-        // Find user by email
         const user = await User.findOne({ email });
         if (!user) {
             return res.status(400).json({ message: "User not found" });
         }
 
-        // Compare password
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
             return res.status(400).json({ message: "Invalid credentials" });
         }
 
-        // Generate JWT token
-        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
 
         res.json({ token });
     } catch (error) {
@@ -65,4 +57,10 @@ router.post("/login", async (req, res) => {
     }
 });
 
-module.exports = router;
+app.use("/api", router);
+
+// Start Server
+const PORT = 5000;
+app.listen(PORT, "192.168.X.X", () => {
+    console.log(`Server running on http://192.168.X.X:${PORT}`);
+});

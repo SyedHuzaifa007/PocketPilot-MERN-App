@@ -10,6 +10,8 @@
 
 # production
 /build
+/Volumes/Work/Personal Projects/Spendify-MERN-App/backend/src/routes/authRoutes.js
+/Volumes/Work/Personal Projects/Spendify-MERN-App/backend/controllers/authController.js
 
 # misc
 .DS_Store
