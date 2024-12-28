@@ -1,10 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { FaCogs, FaSignOutAlt, FaChartLine, FaPlusCircle, FaChartBar, FaChartPie } from 'react-icons/fa';
 import './Dashboard.css';
+import { useNavigate } from 'react-router-dom'; // React Router v6
 import { redirect } from 'react-router-dom';
 
 const Dashboard = () => {
+    const navigate = useNavigate();
     const [greeting, setGreeting] = useState('');
+
+    const handleAddRecordButtonClick = () => {
+        navigate('/add-record'); // Navigate to the dashboard page
+    };
 
     const handleLogout = () => {
     const confirmLogout = window.confirm("Are you sure you want to log out?");
@@ -70,8 +76,8 @@ const Dashboard = () => {
                     <p className="card-amount">$2,850</p>
                 </div>
                 <div className="card">
-                    <h3>Total Monthly Expense</h3>
-                    <p className="card-amount">$1,400</p>
+                <h3>Total Monthly Expense</h3>
+                <p className="card-amount expense-amount">$1,400</p> {/* Add a specific class here */}
                 </div>
                 <div className="card">
                     <h3>Total Savings</h3>
@@ -85,7 +91,7 @@ const Dashboard = () => {
 
             {/* Buttons Section */}
             <div className="buttons-container">
-                <button className="action-button" onClick={() => redirect('/add-record')}>
+                <button className="action-button" onClick={handleAddRecordButtonClick}>
                     <FaPlusCircle /> Add New Record
                 </button>
                 <button className="action-button">

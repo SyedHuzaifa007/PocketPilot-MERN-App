@@ -244,3 +244,14 @@ body {
         padding: 8px 15px;
     }
 }
+
+.card-amount {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+/* Specific styling for Total Monthly Expense */
+.expense-amount {
+    color: red; /* Change text color to red */
+}
+

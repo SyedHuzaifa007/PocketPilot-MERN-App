@@ -28,9 +28,8 @@ function App() {
                         </PrivateRoute>
                     }
                 />
-                {/* Redirect to login for unknown routes */}
-                <Route path="*" element={<Navigate to="/login" />} />
                 <Route path="/add-record" element={<AddRecord />} />
+                <Route path="*" element={<Navigate to="/login" />} />
             </Routes>
         </Router>
     );

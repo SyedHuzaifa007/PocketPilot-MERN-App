@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; // React Router v6
+import axios from 'axios';
 import './AddRecord.css';
 
 const AddRecord = () => {
@@ -14,6 +15,7 @@ const AddRecord = () => {
         media: null,
         details: '',
     });
+
 
     const [categories, setCategories] = useState([
         { name: 'Food', color: '#f39c12' },
@@ -69,10 +71,49 @@ const AddRecord = () => {
     }, []);
 
     // Handle form submission
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('Record added:', formData);
-        alert('Record added successfully!');
+        // Prepare form data including media (if any)
+        const form = new FormData();
+        form.append('name', formData.name);
+        form.append('status', formData.status);
+        form.append('amount', formData.amount);
+        form.append('quantity', formData.quantity);
+        form.append('category', formData.category);
+        form.append('date', formData.date);
+        form.append('details', formData.details);
+        if (formData.media) {
+            form.append('media', formData.media);
+        }
+
+        try {
+            const response = await fetch('http://localhost:5000/add-record', {
+                method: 'POST',
+                body: form,
+            });
+            
+            if (response.ok) {
+                const data = await response.json();
+                alert('Record added successfully!');
+                console.log('Record added:', data);
+                // Optionally reset the form after successful submission
+                setFormData({
+                    name: '',
+                    status: 'Income',
+                    amount: '',
+                    quantity: 0,
+                    category: '',
+                    date: '',
+                    media: null,
+                    details: '',
+                });
+            } else {
+                alert('Failed to add the record');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Error adding the record');
+        }
     };
 
     // Back button click handler
@@ -203,7 +244,7 @@ const AddRecord = () => {
                 </div>
             </form>
             <div className="form-row submit-row">
-        <button type="submit" className="submit-button">Add Record</button>
+        <button type="submit" className="submit-button" onClick={handleSubmit}>Add Record</button>
     </div>
         </div>
     );
