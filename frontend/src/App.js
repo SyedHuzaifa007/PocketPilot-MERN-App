@@ -4,6 +4,7 @@ import Signup from "./pages/Signup"; // Import Signup page
 import Login from "./pages/Login"; // Import Login page
 import Dashboard from "./pages/Dashboard";
 import Splash from "./pages/Splash";
+import AddRecord from './pages/AddRecord';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
@@ -29,6 +30,7 @@ function App() {
                 />
                 {/* Redirect to login for unknown routes */}
                 <Route path="*" element={<Navigate to="/login" />} />
+                <Route path="/add-record" element={<AddRecord />} />
             </Routes>
         </Router>
     );

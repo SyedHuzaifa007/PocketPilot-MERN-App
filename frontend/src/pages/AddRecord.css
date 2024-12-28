@@ -1,0 +1,272 @@
+/* Container for the form */
+.add-record-container {
+    max-width: 1000px; /* Increase the max-width for a wider form */
+    margin: 40px auto;
+    padding: 20px 30px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    font-family: 'Poppins', sans-serif;
+    margin-top: 60px; /* Add space at the top */
+}
+
+/* Heading style */
+.form-heading {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+/* Form structure: 3-column layout */
+.add-record-form {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
+    gap: 20px; /* Space between columns */
+    padding: 20px 0;
+}
+
+/* Form row adjustments */
+.form-row {
+    display: contents; /* Allow each child to be placed within the grid directly */
+}
+
+/* Grouping form elements */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Label styling */
+.add-record-form label {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #34495e;
+}
+
+/* Input, select, textarea styling */
+.add-record-form input,
+.add-record-form select,
+.add-record-form textarea {
+    padding: 10px 15px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s ease;
+    width: 100%;
+}
+
+/* Focus input, select, textarea */
+.add-record-form input:focus,
+.add-record-form select:focus,
+.add-record-form textarea:focus {
+    border-color: #3498db;
+}
+
+/* Quantity control buttons */
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.quantity-controls button {
+    padding: 8px 12px;
+    font-size: 16px;
+    background: #2c3e50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.quantity-controls button:hover {
+    background: #34495e;
+}
+
+/* Textarea styling */
+.add-record-form textarea {
+    height: 80px;
+}
+
+/* Submit button styling */
+.submit-button {
+    /* grid-column: span 3;  */
+    align-self: center;
+    margin-left: 37%;
+    padding: 10px 20px;
+    width: 250px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    background-color: #2c3e50;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+    background-color: #34495e;
+}
+
+/* Custom dropdown styling */
+.custom-dropdown {
+    position: relative;
+    width: 100%;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+/* Input for category */
+.add-record-form input[name="category"] {
+    margin-top: 10px;
+}
+
+/* Dropdown selected styling */
+.dropdown-selected {
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    background-color: white;
+    text-align: center;
+}
+
+/* Dropdown options container */
+.dropdown-options {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    z-index: 1000;
+    max-height: 150px;
+    overflow-y: auto;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Dropdown option styling */
+.dropdown-option {
+    padding: 10px 15px;
+    font-size: 14px;
+    color: white;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.dropdown-option:hover {
+    filter: brightness(90%);
+}
+
+/* Status dropdown styling */
+.status-label {
+    padding: 10px 15px;
+    font-size: 14px;
+    font-weight: bold;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    color: white;
+    outline: none;
+    width: 100%;
+    background-color: #ccc; /* Default background */
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.status-income {
+    background-color: rgb(9, 138, 9); /* Solid green for Income */
+    color: white;
+}
+
+.status-expense {
+    background-color: rgb(226, 14, 14); /* Solid red for Expense */
+    color: white;
+}
+
+/* Style for the Back Button */
+.back-button {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: #34495e;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 50%; /* Round the button */
+    transition: width 0.3s ease; /* Smooth transition for width */
+    width: 40px; /* Initial small width for the round button */
+    height: 40px; /* Match height with width for a circular shape */
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Hide the text initially */
+    position: relative;
+}
+
+/* Hover effect for back button */
+.back-button:hover {
+    background-color: #34495e;
+    width: 150px; /* Expand button width on hover */
+    border-radius: 25px; /* Slightly round the edges when expanded */
+}
+
+/* Back text when hovered */
+.back-button .back-text {
+    display: none; /* Hide text initially */
+    margin-left: 10px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.back-button:hover .back-text {
+    display: inline; /* Show text on hover */
+}
+
+/* Style for the SVG back icon */
+.back-button svg {
+    width: 20px; /* Set the icon size */
+    height: 20px;
+}
+
+.back-button:hover svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* Media Queries for Mobile Responsiveness */
+@media (max-width: 768px) {
+    .add-record-container {
+        padding: 20px;
+        margin-top: 20px;
+        width: 100%;
+    }
+
+    .add-record-form {
+        grid-template-columns: 1fr; /* Stack all form fields in a single column */
+        gap: 15px;
+    }
+
+    .submit-button {
+        grid-column: span 1; /* Ensure submit button takes full width in mobile view */
+    }
+
+    .quantity-controls button {
+        font-size: 14px; /* Reduce font size on mobile */
+    }
+
+    .custom-dropdown,
+    .status-label {
+        width: 100%;
+    }
+}

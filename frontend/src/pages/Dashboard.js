@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FaCogs, FaSignOutAlt, FaChartLine, FaPlusCircle, FaChartBar, FaChartPie } from 'react-icons/fa';
 import './Dashboard.css';
+import { redirect } from 'react-router-dom';
 
 const Dashboard = () => {
     const [greeting, setGreeting] = useState('');
@@ -84,7 +85,7 @@ const Dashboard = () => {
 
             {/* Buttons Section */}
             <div className="buttons-container">
-                <button className="action-button">
+                <button className="action-button" onClick={() => redirect('/add-record')}>
                     <FaPlusCircle /> Add New Record
                 </button>
                 <button className="action-button">
