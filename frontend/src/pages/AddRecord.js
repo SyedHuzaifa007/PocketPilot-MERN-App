@@ -26,10 +26,53 @@ const AddRecord = () => {
 
     const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
 
+    // Fetch categories from the backend
+    const fetchCategories = async () => {
+        try {
+            const response = await axios.get('http://localhost:5000/api/categories');
+            setCategories(response.data); // Update categories state with the fetched data
+        } catch (error) {
+            console.error('Error fetching categories:', error);
+        }
+    };
+
+    // Fetch categories on component mount
+    useEffect(() => {
+        fetchCategories();
+    }, []);
+
     // Handle form changes
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
+    };
+
+    // Handle category selection
+    const handleCategorySelect = (categoryName) => {
+        setFormData({ ...formData, category: categoryName });
+        setShowCategoryDropdown(false);
+    };
+
+    // Handle category addition
+    const handleAddCategory = async () => {
+        if (
+            !categories.some((cat) => cat.name === formData.category) &&
+            formData.category.trim() !== ''
+        ) {
+            const newColor = `#${Math.floor(Math.random() * 16777215).toString(16)}`; // Random color
+            try {
+                const response = await axios.post('http://localhost:5000/api/categories', {
+                    name: formData.category,
+                    color: newColor,
+                });
+                // Add the new category to the categories state
+                setCategories([...categories, response.data]);
+                // Reset category input field
+                setFormData({ ...formData, category: '' });
+            } catch (error) {
+                console.error('Error adding category:', error);
+            }
+        }
     };
 
     // Handle quantity change
@@ -40,22 +83,26 @@ const AddRecord = () => {
         });
     };
 
-    // Handle category selection
-    const handleCategorySelect = (categoryName) => {
-        setFormData({ ...formData, category: categoryName });
-        setShowCategoryDropdown(false);
-    };
+    // Close dropdown when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (!event.target.closest('.custom-dropdown')) {
+                setShowCategoryDropdown(false);
+            }
+        };
+        document.addEventListener('click', handleClickOutside);
+        return () => {
+            document.removeEventListener('click', handleClickOutside);
+        };
+    }, []);
 
-    // Handle category addition
-    const handleAddCategory = () => {
-        if (
-            !categories.some((cat) => cat.name === formData.category) &&
-            formData.category.trim() !== ''
-        ) {
-            const newColor = `#${Math.floor(Math.random() * 16777215).toString(16)}`; // Random color
-            setCategories([...categories, { name: formData.category, color: newColor }]);
-        }
-    };
+
+    // Fetch categories on component mount
+    useEffect(() => {
+        fetchCategories();
+    }, []);
+
+
 
     // Close dropdown when clicking outside
     useEffect(() => {
@@ -184,16 +231,11 @@ const AddRecord = () => {
                     </div>
                 </div>
                 <div className="form-row">
-                    <div className="form-group">
-                        <label>Category:</label>
+                <div className="form-group">
+                <label>Category:</label>
                         <div className="custom-dropdown">
                             <div
                                 className="dropdown-selected"
-                                style={{
-                                    backgroundColor:
-                                        categories.find((cat) => cat.name === formData.category)?.color || '#ffffff',
-                                    color: formData.category ? '#ffffff' : '#000000',
-                                }}
                                 onClick={() => setShowCategoryDropdown(!showCategoryDropdown)}
                             >
                                 {formData.category || 'Select a category'}

@@ -4,6 +4,7 @@ const multer = require("multer"); // Make sure multer is installed
 const dotenv = require("dotenv");
 const cors = require("cors");
 const authRoutes = require("./routes/authRoutes"); // Correct relative path
+const categoryRoutes = require('./routes/categoryRoutes'); 
 
 // Load environment variables
 dotenv.config();
@@ -15,6 +16,7 @@ const app = express();
 app.use(express.json()); // To parse JSON bodies
 app.use(cors()); // Handle cross-origin requests
 
+app.use('/api', categoryRoutes);
 app.use("/api/auth", authRoutes);
 
 
