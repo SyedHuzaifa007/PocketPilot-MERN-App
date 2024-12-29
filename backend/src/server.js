@@ -1,10 +1,13 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const multer = require("multer"); // Make sure multer is installed
+const multer = require("multer");
 const dotenv = require("dotenv");
 const cors = require("cors");
-const authRoutes = require("./routes/authRoutes"); // Correct relative path
-const categoryRoutes = require('./routes/categoryRoutes'); 
+const Record = require('./models/Record');
+const authRoutes = require("./routes/authRoutes");
+const recordRoutes = require('./routes/recordRoutes');
+
+// const categoryRoutes = require('./routes/categoryRoutes'); 
 
 // Load environment variables
 dotenv.config();
@@ -16,8 +19,11 @@ const app = express();
 app.use(express.json()); // To parse JSON bodies
 app.use(cors()); // Handle cross-origin requests
 
-app.use('/api', categoryRoutes);
+// app.use('/api', categoryRoutes);
 app.use("/api/auth", authRoutes);
+ // Mount routes at /api
+
+app.use("/api", recordRoutes); // This will handle routes like /api/records
 
 
 // Set up file storage with multer
@@ -43,7 +49,30 @@ const recordSchema = new mongoose.Schema({
     details: String,
 });
 
-const Record = mongoose.model('Record', recordSchema);
+
+
+app.delete('/api/records/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+        await Record.findByIdAndDelete(id); // Replace with your database query
+        res.status(200).json({ message: 'Record deleted successfully' });
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to delete record' });
+    }
+});
+
+app.put('/api/records/:id', async (req, res) => {
+    const { id } = req.params;
+    const updateData = req.body; // Ensure validation is in place
+    try {
+        const updatedRecord = await Record.findByIdAndUpdate(id, updateData, { new: true });
+        res.json(updatedRecord);
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to update record' });
+    }
+});
+
+
 
 // Route to handle record submission
 app.post('/add-record', upload.single('media'), async (req, res) => {

@@ -5,6 +5,7 @@ import Login from "./pages/Login"; // Import Login page
 import Dashboard from "./pages/Dashboard";
 import Splash from "./pages/Splash";
 import AddRecord from './pages/AddRecord';
+import PastRecords from './pages/PastRecords';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
@@ -29,6 +30,7 @@ function App() {
                     }
                 />
                 <Route path="/add-record" element={<AddRecord />} />
+                <Route path="/past-records" element={<PastRecords />} />
                 <Route path="*" element={<Navigate to="/login" />} />
             </Routes>
         </Router>

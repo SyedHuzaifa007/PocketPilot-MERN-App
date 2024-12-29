@@ -1,0 +1,275 @@
+/* Container for the records page */
+.past-records-container {
+    padding: 40px;
+    font-family: 'Roboto', sans-serif;
+    max-width: 1200px;
+    margin: 0 auto;
+    margin-top: 200px;
+}
+
+/* Heading Style */
+.records-heading {
+    text-align: center;
+    font-size: 2em;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+/* Table Styling */
+.records-table {
+    width: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    border-collapse: collapse;
+}
+
+/* Bold text for Sr. No and Name */
+.bold-text {
+    font-weight: bold;
+}
+
+
+/* Income Status in Green */
+.records-table td.income-status {
+    color: green;  /* Use green for Income */
+    font-weight: bold;
+}
+
+/* Expense Status in Red */
+.records-table td.expense-status {
+    color: red;  /* Use red for Expense */
+    font-weight: bold;
+}
+
+
+/* Table Header Styling */
+.records-table th {
+    background-color: #2c3e50;
+    color: #fff;
+    padding: 15px;
+    text-align: left;
+    font-size: 16px;
+    letter-spacing: 1px;
+}
+
+/* Table Body Styling */
+.records-table td {
+    padding: 14px;
+    text-align: left;
+    font-size: 14px;
+    color: #555;
+    border-bottom: 1px solid #eee;
+}
+
+/* Hover effect for table rows */
+.records-table tr:hover {
+    background-color: #f1f1f1;
+    transition: background-color 0.3s ease;
+}
+
+/* Stripe effect for table rows */
+.records-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* Actions Cell */
+.actions-cell {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+/* Button Styling */
+.update-button, .delete-button {
+    padding: 10px 15px;
+    font-size: 14px;
+    border-radius: 5px;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* Update Button Styling */
+.update-button {
+    background-color: #4CAF50;
+}
+
+.update-button:hover {
+    background-color: #45a049;
+    transform: scale(1.05);
+}
+
+/* Delete Button Styling */
+.delete-button {
+    background-color: #f44336;
+}
+
+.delete-button:hover {
+    background-color: #f12c2c;
+    transform: scale(1.05);
+}
+
+/* Loading and No Records Messages */
+.loading-message, .no-records-message {
+    text-align: center;
+    font-size: 1.5em;
+    color: #333;
+    margin-top: 50px;
+}
+
+/* Style for the Back Button */
+.back-button {
+    position: fixed; /* Use fixed positioning to ensure it stays in place even when scrolling */
+    top: 20px; /* Distance from the top of the page */
+    left: 20px; /* Distance from the left of the page */
+    background-color: #34495e;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 50%; /* Round the button */
+    transition: width 0.3s ease; /* Smooth transition for width */
+    width: 40px; /* Initial small width for the round button */
+    height: 40px; /* Match height with width for a circular shape */
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Hide the text initially */
+    position: relative;
+}
+
+/* Hover effect for back button */
+.back-button:hover {
+    background-color: #34495e;
+    width: 150px; /* Expand button width on hover */
+    border-radius: 25px; /* Slightly round the edges when expanded */
+}
+
+/* Back text when hovered */
+.back-button .back-text {
+    display: none; /* Hide text initially */
+    margin-left: 10px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.back-button:hover .back-text {
+    display: inline; /* Show text on hover */
+}
+
+/* Style for the SVG back icon */
+.back-button svg {
+    width: 20px; /* Set the icon size */
+    height: 20px;
+}
+
+.back-button:hover svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* Position the top-right buttons */
+.top-right-buttons {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    gap: 15px;
+    z-index: 10; /* Ensure buttons are above the content */
+}
+
+/* Button Styling */
+.download-button, .share-button {
+    padding: 8px 12px;
+    font-size: 14px;
+    border-radius: 50%; /* Round the button */
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: width 0.3s ease, transform 0.3s ease; /* Smooth transition */
+    width: 40px; /* Initial small width */
+    height: 40px; /* Match height with width for a circular shape */
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Hide the text initially */
+    position: relative;
+}
+
+/* Hover effect for download and share buttons */
+/* .download-button:hover, */
+.share-button:hover {
+    width: 150px; /* Expand button width on hover */
+    border-radius: 25px; /* Slightly round the edges when expanded */
+    transform: scale(1.05); /* Slightly scale up on hover */
+}
+
+/* Button text for download and share buttons */
+/* .download-button .button-text, */
+.share-button .button-text {
+    display: none; /* Hide text initially */
+    margin-left: 10px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* Display text on hover */
+/* .download-button:hover .button-text, */
+.share-button:hover .button-text {
+    display: inline; /* Show text on hover */
+}
+
+/* Download Button Styling */
+.download-button {
+    background-color: #3498db;
+}
+
+.download-button:hover {
+    background-color: #2980b9;
+}
+
+/* Share Button Styling */
+.share-button {
+    background-color: #16a085;
+}
+
+.share-button:hover {
+    background-color: #1abc9c;
+}
+
+/* Style for icons inside the buttons */
+.download-button svg,
+
+.share-button svg {
+    width: 20px;
+    height: 20px;
+}
+
+.download-button:hover svg,
+
+.share-button:hover svg {
+    width: 16px;
+    height: 16px;
+}
+
+
+/* Responsive Design for small screens */
+@media (max-width: 768px) {
+    .records-table th, .records-table td {
+        padding: 10px;
+    }
+
+    .update-button, .delete-button {
+        padding: 8px 12px;
+    }
+
+    .records-heading {
+        font-size: 2em;
+    }
+}

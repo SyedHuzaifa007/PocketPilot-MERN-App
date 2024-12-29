@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { FaCogs, FaSignOutAlt, FaChartLine, FaPlusCircle, FaChartBar, FaChartPie } from 'react-icons/fa';
 import './Dashboard.css';
 import { useNavigate } from 'react-router-dom'; // React Router v6
-import { redirect } from 'react-router-dom';
 
 const Dashboard = () => {
     const navigate = useNavigate();
@@ -10,6 +9,10 @@ const Dashboard = () => {
 
     const handleAddRecordButtonClick = () => {
         navigate('/add-record'); // Navigate to the dashboard page
+    };
+
+    const handlePastRecordsButtonClick = () => {
+        navigate('/past-records'); // Navigate to the dashboard page
     };
 
     const handleLogout = () => {
@@ -94,7 +97,7 @@ const Dashboard = () => {
                 <button className="action-button" onClick={handleAddRecordButtonClick}>
                     <FaPlusCircle /> Add New Record
                 </button>
-                <button className="action-button">
+                <button className="action-button" onClick={handlePastRecordsButtonClick}>
                     <FaChartLine /> Past Records
                 </button>
                 <button className="action-button">
