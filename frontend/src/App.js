@@ -6,6 +6,8 @@ import Dashboard from "./pages/Dashboard";
 import Splash from "./pages/Splash";
 import AddRecord from './pages/AddRecord';
 import PastRecords from './pages/PastRecords';
+import UpdateRecord from './pages/UpdateRecord';
+import RecordDetails from './pages/RecordDetails';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
@@ -31,6 +33,8 @@ function App() {
                 />
                 <Route path="/add-record" element={<AddRecord />} />
                 <Route path="/past-records" element={<PastRecords />} />
+                <Route path="/update-record/:id" element={<UpdateRecord />} />
+                <Route path="/record-details/:id" element={<RecordDetails />} />
                 <Route path="*" element={<Navigate to="/login" />} />
             </Routes>
         </Router>

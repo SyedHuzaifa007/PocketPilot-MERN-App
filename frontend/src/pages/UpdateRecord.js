@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // React Router v6
+import { useCallback } from 'react';
+import { useNavigate, useParams } from 'react-router-dom'; // React Router v6
 import axios from 'axios';
 import './AddRecord.css';
 
-const AddRecord = () => {
-    const navigate = useNavigate(); // Hook for navigation
+const UpdateRecord = () => {
+    const navigate = useNavigate();
+    const { id } = useParams(); // Get the record ID from the URL parameters
+    console.log('Record ID:', id);
+    
+
     const [formData, setFormData] = useState({
         name: '',
         status: 'Income',
@@ -15,41 +20,58 @@ const AddRecord = () => {
         media: null,
         details: '',
     });
-
-
-    const [categories, setCategories] = useState([
-        { name: 'Food', color: '#f39c12' },
-        { name: 'Transport', color: '#3498db' },
-        { name: 'Entertainment', color: '#e74c3c' },
-        { name: 'Shopping', color: '#9b59b6' },
-    ]);
-
+    const [categories, setCategories] = useState([]);
     const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
 
     // Fetch categories from the backend
     const fetchCategories = async () => {
         try {
             const response = await axios.get('http://localhost:5000/api/categories');
-            setCategories(response.data); // Update categories state with the fetched data
+            setCategories(response.data);
         } catch (error) {
             console.error('Error fetching categories:', error);
         }
     };
 
-    // Fetch categories on component mount
+
+    // Define fetchRecordDetails with useCallback
+    const fetchRecordDetails = useCallback(async () => {
+        try {
+            console.log('Fetching record details for ID:', id);
+            console.log(`Fetching: http://localhost:5000/api/records/${id}`);
+            const response = await axios.get(`http://localhost:5000/api/records/${id}`);
+            if (response.data) {
+                setFormData(response.data); // Prefill form with the fetched data
+            }
+        } catch (error) {
+            console.error('Error fetching record:', error);
+        }
+    }, [id]); // The function depends on the 'id' value
+    
     useEffect(() => {
         fetchCategories();
-    }, []);
+        fetchRecordDetails(); // Fetch the record details based on ID
+    }, [id, fetchRecordDetails]); // Now it's safe to include fetchRecordDetails
+    
+    useEffect(() => {
+        console.log('Form data after fetch:', formData);  // Log the form data after it is set
+    }, [formData]);
 
     // Handle form changes
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
+        setFormData((prevState) => ({
+            ...prevState,
+            [name]: value,
+        }));
     };
 
     // Handle category selection
     const handleCategorySelect = (categoryName) => {
-        setFormData({ ...formData, category: categoryName });
+        setFormData((prevState) => ({
+            ...prevState,
+            category: categoryName,
+        }));
         setShowCategoryDropdown(false);
     };
 
@@ -59,16 +81,17 @@ const AddRecord = () => {
             !categories.some((cat) => cat.name === formData.category) &&
             formData.category.trim() !== ''
         ) {
-            const newColor = `#${Math.floor(Math.random() * 16777215).toString(16)}`; // Random color
+            const newColor = `#${Math.floor(Math.random() * 16777215).toString(16)}`;
             try {
                 const response = await axios.post('http://localhost:5000/api/categories', {
                     name: formData.category,
                     color: newColor,
                 });
-                // Add the new category to the categories state
                 setCategories([...categories, response.data]);
-                // Reset category input field
-                setFormData({ ...formData, category: '' });
+                setFormData((prevState) => ({
+                    ...prevState,
+                    category: '',
+                }));
             } catch (error) {
                 console.error('Error adding category:', error);
             }
@@ -77,50 +100,15 @@ const AddRecord = () => {
 
     // Handle quantity change
     const handleQuantityChange = (increment) => {
-        setFormData({
-            ...formData,
-            quantity: Math.max(0, formData.quantity + increment),
-        });
+        setFormData((prevState) => ({
+            ...prevState,
+            quantity: Math.max(0, prevState.quantity + increment),
+        }));
     };
 
-    // Close dropdown when clicking outside
-    useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (!event.target.closest('.custom-dropdown')) {
-                setShowCategoryDropdown(false);
-            }
-        };
-        document.addEventListener('click', handleClickOutside);
-        return () => {
-            document.removeEventListener('click', handleClickOutside);
-        };
-    }, []);
-
-
-    // Fetch categories on component mount
-    useEffect(() => {
-        fetchCategories();
-    }, []);
-
-
-
-    // Close dropdown when clicking outside
-    useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (!event.target.closest('.custom-dropdown')) {
-                setShowCategoryDropdown(false);
-            }
-        };
-        document.addEventListener('click', handleClickOutside);
-        return () => {
-            document.removeEventListener('click', handleClickOutside);
-        };
-    }, []);
-
-    // Handle form submission
+    // Handle form submission (Update the record)
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // Prepare form data including media (if any)
         const form = new FormData();
         form.append('name', formData.name);
         form.append('status', formData.status);
@@ -130,42 +118,37 @@ const AddRecord = () => {
         form.append('date', formData.date);
         form.append('details', formData.details);
         if (formData.media) {
-            form.append('media', formData.media); // Must match 'media' in upload.single('media')
+            form.append('media', formData.media);
         }
-
+    
+        // Log the form data
+        for (const [key, value] of form.entries()) {
+            console.log(`${key}: ${value}`);
+        }
+    
         try {
-            const response = await fetch('http://localhost:5000/add-record', {
-                method: 'POST',
+            const response = await fetch(`http://localhost:5000/api/records/${id}`, {
+                method: 'PUT',
                 body: form,
             });
-            
+    
             if (response.ok) {
-                const data = await response.json();
-                alert('Record added successfully!');
-                console.log('Record added:', data);
-                // Optionally reset the form after successful submission
-                setFormData({
-                    name: '',
-                    status: 'Income',
-                    amount: '',
-                    quantity: 0,
-                    category: '',
-                    date: '',
-                    media: null,
-                    details: '',
-                });
+                alert('Record updated successfully!');
+                navigate('/past-records');
             } else {
-                alert('Failed to add the record');
+                const errorData = await response.json();
+                console.error('Error response:', errorData);
+                alert('Failed to update the record');
             }
         } catch (error) {
             console.error('Error:', error);
-            alert('Error adding the record');
+            alert('Error updating the record');
         }
     };
+    
 
-    // Back button click handler
     const handleBackButtonClick = () => {
-        navigate('/dashboard'); // Navigate to the dashboard page
+        navigate('/past-records'); // Navigate back to the past records page
     };
 
     return (
@@ -187,12 +170,18 @@ const AddRecord = () => {
                 </svg>
                 <span className="back-text">Back</span>
             </button>
-            <h2 className="form-heading">Add New Record</h2>
+            <h2 className="form-heading">Update Record</h2>
             <form className="add-record-form" onSubmit={handleSubmit}>
                 <div className="form-row">
                     <div className="form-group">
                         <label>Name:</label>
-                        <input type="text" name="name" value={formData.name} onChange={handleChange} required />
+                        <input
+                            type="text"
+                            name="name"
+                            value={formData.name}
+                            onChange={handleChange}
+                            required
+                        />
                     </div>
                     <div className="form-group">
                         <label>Status:</label>
@@ -224,15 +213,19 @@ const AddRecord = () => {
                     <div className="form-group">
                         <label>Quantity:</label>
                         <div className="quantity-controls">
-                            <button type="button" onClick={() => handleQuantityChange(-1)}>-</button>
+                            <button type="button" onClick={() => handleQuantityChange(-1)}>
+                                -
+                            </button>
                             <input type="number" value={formData.quantity} readOnly />
-                            <button type="button" onClick={() => handleQuantityChange(1)}>+</button>
+                            <button type="button" onClick={() => handleQuantityChange(1)}>
+                                +
+                            </button>
                         </div>
                     </div>
                 </div>
                 <div className="form-row">
-                <div className="form-group">
-                <label>Category:</label>
+                    <div className="form-group">
+                        <label>Category:</label>
                         <div className="custom-dropdown">
                             <div
                                 className="dropdown-selected"
@@ -266,13 +259,23 @@ const AddRecord = () => {
                     </div>
                     <div className="form-group">
                         <label>Date:</label>
-                        <input type="date" name="date" value={formData.date} onChange={handleChange} required />
+                        <input
+                            type="date"
+                            name="date"
+                            value={formData.date}
+                            onChange={handleChange}
+                            required
+                        />
                     </div>
                 </div>
                 <div className="form-row">
                     <div className="form-group">
                         <label>Media:</label>
-                        <input type="file" name="media" onChange={(e) => setFormData({ ...formData, media: e.target.files[0] })} />
+                        <input
+                            type="file"
+                            name="media"
+                            onChange={(e) => setFormData({ ...formData, media: e.target.files[0] })}
+                        />
                     </div>
                     <div className="form-group">
                         <label>Details:</label>
@@ -284,12 +287,14 @@ const AddRecord = () => {
                         ></textarea>
                     </div>
                 </div>
+                <div className="form-row submit-row">
+                    <button type="submit" className="submit-button">
+                        Update Record
+                    </button>
+                </div>
             </form>
-            <div className="form-row submit-row">
-        <button type="submit" className="submit-button" onClick={handleSubmit}>Add Record</button>
-    </div>
         </div>
     );
 };
 
-export default AddRecord;
+export default UpdateRecord;

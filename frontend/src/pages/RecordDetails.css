@@ -1,0 +1,136 @@
+/* General container for the record details page */
+.record-details-container {
+    width: 100%;
+    margin: 0 auto;
+    padding: 50px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Style for the Back Button */
+.back-button {
+    position: fixed; /* Use fixed positioning to ensure it stays in place even when scrolling */
+    top: 20px; /* Distance from the top of the page */
+    left: 20px; /* Distance from the left of the page */
+    background-color: #34495e;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 50%; /* Round the button */
+    transition: width 0.3s ease; /* Smooth transition for width */
+    width: 40px; /* Initial small width for the round button */
+    height: 40px; /* Match height with width for a circular shape */
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Hide the text initially */
+    /* position: relative; */
+    z-index: 10; 
+}
+
+/* Hover effect for back button */
+.back-button:hover {
+    background-color: #34495e;
+    width: 150px; /* Expand button width on hover */
+    border-radius: 25px; /* Slightly round the edges when expanded */
+}
+
+/* Back text when hovered */
+.back-button .back-text {
+    display: none; /* Hide text initially */
+    margin-left: 10px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.back-button:hover .back-text {
+    display: inline; /* Show text on hover */
+}
+
+/* Style for the SVG back icon */
+.back-button svg {
+    width: 20px; /* Set the icon size */
+    height: 20px;
+}
+
+.back-button:hover svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* Heading for the record details */
+.record-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #333;
+}
+
+/* Section for displaying the record details */
+.record-details {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.record-details p {
+    font-size: 16px;
+    margin: 10px 0;
+}
+
+.record-details strong {
+    color: #333;
+}
+
+/* Media section styles */
+.media-section {
+    margin-top: 20px;
+}
+
+.media-item {
+    margin-bottom: 15px;
+}
+
+/* Styling for images in media section */
+.media-image {
+    max-width: 100%;
+    max-height: 300px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 5px;
+    display: block;
+    margin: 0 auto;
+}
+
+/* Link styling for non-image media files */
+.media-item a {
+    color: #007bff;
+    font-size: 16px;
+    text-decoration: none;
+}
+
+.media-item a:hover {
+    text-decoration: underline;
+}
+
+/* Error message or loading message styles */
+.loading-message, .error-message {
+    text-align: center;
+    font-size: 18px;
+    color: #888;
+    margin-top: 50px;
+}
+
+/* Media section title */
+h2 {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}

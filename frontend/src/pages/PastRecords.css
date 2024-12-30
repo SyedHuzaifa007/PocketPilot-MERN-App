@@ -1,10 +1,8 @@
 /* Container for the records page */
 .past-records-container {
-    padding: 40px;
+    position: relative;
     font-family: 'Roboto', sans-serif;
     max-width: 1200px;
-    margin: 0 auto;
-    margin-top: 200px;
 }
 
 /* Heading Style */
@@ -14,6 +12,8 @@
     font-weight: bold;
     color: #333;
     margin-bottom: 30px;
+    margin-top: 50px;
+    display: block;
 }
 
 /* Table Styling */
@@ -23,13 +23,37 @@
     overflow: hidden;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     border-collapse: collapse;
+    display: block;
+    max-height: 600px; /* Set a max-height for the table */
+    overflow-y: auto;  /* Enable scrolling if records exceed the table height */
+}
+
+/* Table Header Styling */
+.records-table th {
+    background-color: #2c3e50;
+    color: #fff;
+    padding: 15px;
+    text-align: left;
+    font-size: 16px;
+    letter-spacing: 1px;
+    position: sticky;
+    top: 0; /* Make the header stick to the top */
+    z-index: 1; /* Ensure the header is above the table body */
+}
+
+/* Table Body Styling */
+.records-table td {
+    padding: 14px;
+    text-align: left;
+    font-size: 14px;
+    color: #555;
+    border-bottom: 1px solid #eee;
 }
 
 /* Bold text for Sr. No and Name */
 .bold-text {
     font-weight: bold;
 }
-
 
 /* Income Status in Green */
 .records-table td.income-status {
@@ -41,26 +65,6 @@
 .records-table td.expense-status {
     color: red;  /* Use red for Expense */
     font-weight: bold;
-}
-
-
-/* Table Header Styling */
-.records-table th {
-    background-color: #2c3e50;
-    color: #fff;
-    padding: 15px;
-    text-align: left;
-    font-size: 16px;
-    letter-spacing: 1px;
-}
-
-/* Table Body Styling */
-.records-table td {
-    padding: 14px;
-    text-align: left;
-    font-size: 14px;
-    color: #555;
-    border-bottom: 1px solid #eee;
 }
 
 /* Hover effect for table rows */
@@ -81,36 +85,89 @@
     gap: 10px;
 }
 
+/* Actions Cell */
+.actions-cell {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
 /* Button Styling */
 .update-button, .delete-button {
-    padding: 10px 15px;
-    font-size: 14px;
-    border-radius: 5px;
+    padding: 10px;
+    font-size: 0; /* Hide text initially */
+    border-radius: 50%; /* Round the button */
     color: white;
     border: none;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: width 0.3s ease, transform 0.3s ease; /* Smooth transition for expanding */
+    width: 40px; /* Initial small width for the round button */
+    height: 40px; /* Match height with width for a circular shape */
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden; /* Hide the text initially */
+}
+
+/* Icon Styling for Update and Delete buttons */
+.update-button svg,
+.delete-button svg {
+    width: 20px;
+    height: 20px;
+    color: white; /* Ensure the icon color matches the button */
+    flex-shrink: 0; /* Prevent the icon from shrinking */
+}
+
+/* Hover effect for update and delete buttons */
+.update-button:hover,
+.delete-button:hover {
+    width: 150px; /* Expand button width on hover */
+    border-radius: 25px; /* Slightly round the edges when expanded */
+    transform: scale(1.05); /* Slightly scale up on hover */
+}
+
+/* Button text for Update and Delete buttons */
+.update-button .button-text,
+.delete-button .button-text {
+    display: none; /* Hide text initially */
+    margin-left: 10px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* Display text on hover */
+.update-button:hover .button-text,
+.delete-button:hover .button-text {
+    display: inline; /* Show text on hover */
 }
 
 /* Update Button Styling */
 .update-button {
-    background-color: #4CAF50;
+    background-color: #4CAF50; /* Green for update */
 }
 
 .update-button:hover {
-    background-color: #45a049;
-    transform: scale(1.05);
+    background-color: #45a049; /* Darker green on hover */
 }
 
 /* Delete Button Styling */
 .delete-button {
-    background-color: #f44336;
+    background-color: #f44336; /* Red for delete */
 }
 
 .delete-button:hover {
-    background-color: #f12c2c;
-    transform: scale(1.05);
+    background-color: #f12c2c; /* Darker red on hover */
 }
+
+/* Hover effect for icons inside buttons */
+.update-button:hover svg,
+.delete-button:hover svg {
+    width: 16px;
+    height: 16px;
+}
+
 
 /* Loading and No Records Messages */
 .loading-message, .no-records-message {
@@ -123,7 +180,7 @@
 /* Style for the Back Button */
 .back-button {
     position: fixed; /* Use fixed positioning to ensure it stays in place even when scrolling */
-    top: 20px; /* Distance from the top of the page */
+    top: 40px; /* Distance from the top of the page */
     left: 20px; /* Distance from the left of the page */
     background-color: #34495e;
     color: white;
@@ -141,6 +198,7 @@
     align-items: center;
     overflow: hidden; /* Hide the text initially */
     position: relative;
+    z-index: 10; 
 }
 
 /* Hover effect for back button */
@@ -259,7 +317,6 @@
     width: 16px;
     height: 16px;
 }
-
 
 /* Responsive Design for small screens */
 @media (max-width: 768px) {
