@@ -175,12 +175,13 @@
 
 /* Position the top-right buttons */
 .top-right-buttons {
-    position: fixed;
-    top: 20px;
-    right: 20px;
+    position: fixed; /* Fix position to the top-right corner */
+    top: 20px; /* Distance from the top of the page */
+    right: 20px; /* Distance from the right of the page */
     display: flex;
-    gap: 15px;
-    z-index: 10; /* Ensure buttons are above the content */
+    flex-direction: column; /* Stack buttons vertically */
+    gap: 15px; /* Add space between buttons */
+    z-index: 10; /* Ensure buttons are above other content */
 }
 
 /* Button Styling */
@@ -198,12 +199,21 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: hidden; /* Hide the text initially */
     position: relative;
+    overflow: visible; /* Allow the icon to be visible */
+}
+
+/* Icon Styling */
+.download-button svg,
+.share-button svg {
+    width: 20px;
+    height: 20px;
+    color: white; /* Ensure the icon color matches the button */
+    flex-shrink: 0; /* Prevent the icon from shrinking */
 }
 
 /* Hover effect for download and share buttons */
-/* .download-button:hover, */
+.download-button:hover,
 .share-button:hover {
     width: 150px; /* Expand button width on hover */
     border-radius: 25px; /* Slightly round the edges when expanded */
@@ -211,7 +221,7 @@
 }
 
 /* Button text for download and share buttons */
-/* .download-button .button-text, */
+.download-button .button-text,
 .share-button .button-text {
     display: none; /* Hide text initially */
     margin-left: 10px;
@@ -220,39 +230,31 @@
 }
 
 /* Display text on hover */
-/* .download-button:hover .button-text, */
+.download-button:hover .button-text,
 .share-button:hover .button-text {
     display: inline; /* Show text on hover */
 }
 
 /* Download Button Styling */
 .download-button {
-    background-color: #3498db;
+    background-color: #166ba0;
 }
 
 .download-button:hover {
-    background-color: #2980b9;
+    background-color: #1abc9c;
 }
 
 /* Share Button Styling */
 .share-button {
-    background-color: #16a085;
+    background-color: #166ba0;
 }
 
 .share-button:hover {
     background-color: #1abc9c;
 }
 
-/* Style for icons inside the buttons */
-.download-button svg,
-
-.share-button svg {
-    width: 20px;
-    height: 20px;
-}
-
+/* Hover effect for icons inside buttons */
 .download-button:hover svg,
-
 .share-button:hover svg {
     width: 16px;
     height: 16px;
