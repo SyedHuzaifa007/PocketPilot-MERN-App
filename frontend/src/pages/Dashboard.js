@@ -131,28 +131,26 @@ const Dashboard = () => {
 
     return (
         <div className="dashboard-container">
-           <nav className="navbar">
-    <div className="navbar-left">
-        <img src="/logo.png" alt="Logo" className="navbar-logo" />
-        <h1 className="navbar-heading">Pocket Pilot</h1>
-    </div>
-    <div className="navbar-right">
-        <div className="dropdown">
-            <button className="dropdown-toggle">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9.594 3.94..." />
-                </svg>
-            </button>
-            <div className="dropdown-menu">
-                <button className="dropdown-item">Settings</button>
-                <button className="dropdown-item" onClick={handleLogout}>
-                    <FaSignOutAlt /> Logout
-                </button>
-            </div>
-        </div>
-    </div>
-</nav>
-
+            <nav className="navbar">
+                <div className="navbar-left">
+                    <h1 className="navbar-heading">Pocket Pilot</h1>
+                </div>
+                <div className="navbar-right">
+                    <div className="dropdown">
+                        <button className="dropdown-toggle">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M9.594 3.94..." />
+                            </svg>
+                        </button>
+                        <div className="dropdown-menu">
+                            <button className="dropdown-item">Settings</button>
+                            <button className="dropdown-item" onClick={handleLogout}>
+                                <FaSignOutAlt /> Logout
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </nav>
 
             <div className="greeting-message">
                 <h2 className="gradient-text">{greeting}, Huzaifa! Welcome back!</h2>

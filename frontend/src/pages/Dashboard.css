@@ -22,115 +22,74 @@ body {
     padding-top: 470px; /* Adjusted padding to avoid overlap with navbar */
 }
 
-/* General Navbar Styling */
+/* Navbar */
 .navbar {
     display: flex;
-    justify-content: space-between;
+    justify-content: center; /* Center content horizontally in the navbar */
     align-items: center;
     background-color: #2c3e50;
     color: white;
-    padding: 20px 30px; /* Add more padding to ensure better spacing */
+    padding: 15px 30px; /* Adjusted padding for better spacing */
     position: fixed;
     top: 0;
-    left: 0;
-    width: 100%; /* Ensures the navbar spans full width */
+    left: 0; /* Corrected the left offset to 0 */
+    width: 100%; /* Full width of the screen */
     z-index: 100;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-    border-bottom: 2px solid #34495e;
-    overflow: hidden; /* Prevents any overflow */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border: 5px solid transparent; /* Transparent border to allow gradient border */
+    border-image: linear-gradient(45deg, #434242, #614485) 1; /* Gradient border */
 }
 
-/* Navbar Left */
-.navbar-left {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
+/* Navbar Heading */
 .navbar-heading {
-    font-size: 32px;
+    font-size: 36px;
     font-family: 'Poppins', sans-serif;
     font-weight: bold;
-    color: #fff;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    transition: color 0.3s ease;
+    text-align: center;
+    margin: 10px 400px; /* Ensure the text itself is centered */
+    flex: 1; /* Make the heading take up available space */
 }
 
-.navbar-heading:hover {
-    color: #7f8c8d; /* Hover effect for the navbar title */
-}
 
-/* Navbar Right (Dropdown) */
-.navbar-right {
-    display: flex;
-    align-items: center;
-}
-
-.dropdown {
-    position: relative;
-}
-
+/* Dropdown Menu */
 .dropdown-toggle {
     background: none;
     border: none;
     color: white;
-    font-size: 30px;
+    font-size: 40px;
     cursor: pointer;
-    padding: 0 10px;
-    transition: color 0.3s ease;
-}
-
-.dropdown-toggle:hover {
-    color: #7f8c8d; /* Change color on hover */
+    margin-right: 20px;
+    padding: 0 20px;
 }
 
 .dropdown-menu {
     position: absolute;
-    top: 100%;
+    top: calc(100% + 5px);
     right: 0;
-    background-color: #34495e;
+    background-color: white;
+    border: 1px solid #bdc3c7;
     border-radius: 8px;
     display: none;
     flex-direction: column;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(10px);
-    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
 }
 
 .dropdown:hover .dropdown-menu {
     display: flex;
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
 }
 
 .dropdown-item {
     padding: 12px 20px;
     cursor: pointer;
-    background-color: #34495e;
+    background-color: white;
     border: none;
-    color: white;
+    color: #2c3e50;
     text-align: left;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s;
 }
 
 .dropdown-item:hover {
-    background-color: #2c3e50;
-}
-
-/* Logo/Icon Style */
-.navbar-logo {
-    width: 30px;
-    height: 30px;
-    margin-right: 10px;
-    transition: transform 0.3s ease;
-}
-
-.navbar-logo:hover {
-    transform: rotate(360deg); /* Add a rotation effect to the logo */
+    background-color: #f0f0f0;
 }
 
 /* Greeting Text Styling */
