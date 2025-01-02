@@ -4,6 +4,7 @@ import axios from 'axios';
 import './PastRecords.css';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
+import * as XLSX from 'xlsx';
 
 const PastRecords = () => {
     const navigate = useNavigate(); // Hook for navigation
@@ -115,6 +116,30 @@ const PastRecords = () => {
         doc.save(fileName);
     };
 
+    const handleDownloadExcel = () => {
+        const timestamp = new Date().toISOString().replace(/[-:]/g, '').replace('T', '_').split('.')[0];
+        const documentId = Math.floor(1000 + Math.random() * 9000);
+
+        const tableColumnHeaders = ['Sr. No', 'Name', 'Status', 'Amount (PKR)', 'Quantity', 'Category', 'Date', 'Details'];
+        const tableRows = records.map((record, index) => [
+            index + 1,
+            record.name,
+            record.status,
+            record.amount,
+            record.quantity,
+            record.category,
+            new Date(record.date).toLocaleDateString(),
+            record.details,
+        ]);
+
+        const ws = XLSX.utils.aoa_to_sheet([tableColumnHeaders, ...tableRows]);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Past Records');
+
+        const fileName = `${documentId}_${timestamp}.xlsx`;
+        XLSX.writeFile(wb, fileName);
+    };
+
     if (loading) {
         return <div className="loading-message">Loading records...</div>;
     }
@@ -128,22 +153,24 @@ const PastRecords = () => {
             <div class="top-right-buttons">
         <button class="download-button" onClick={handleDownloadPDF}>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
-  <path d="M5.625 1.5c-1.036 0-1.875.84-1.875 1.875v17.25c0 1.035.84 1.875 1.875 1.875h12.75c1.035 0 1.875-.84 1.875-1.875V12.75A3.75 3.75 0 0 0 16.5 9h-1.875a1.875 1.875 0 0 1-1.875-1.875V5.25A3.75 3.75 0 0 0 9 1.5H5.625Z" />
-  <path d="M12.971 1.816A5.23 5.23 0 0 1 14.25 5.25v1.875c0 .207.168.375.375.375H16.5a5.23 5.23 0 0 1 3.434 1.279 9.768 9.768 0 0 0-6.963-6.963Z" />
-</svg>
-
+        <path d="M5.625 1.5c-1.036 0-1.875.84-1.875 1.875v17.25c0 1.035.84 1.875 1.875 1.875h12.75c1.035 0 1.875-.84 1.875-1.875V12.75A3.75 3.75 0 0 0 16.5 9h-1.875a1.875 1.875 0 0 1-1.875-1.875V5.25A3.75 3.75 0 0 0 9 1.5H5.625Z" />
+        <path d="M12.971 1.816A5.23 5.23 0 0 1 14.25 5.25v1.875c0 .207.168.375.375.375H16.5a5.23 5.23 0 0 1 3.434 1.279 9.768 9.768 0 0 0-6.963-6.963Z" />
+        </svg>
         <span class="button-text">Download PDF</span>
         </button>
+        <button className="download-button" onClick={handleDownloadExcel}>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
+        <path d="M15.5 2A1.5 1.5 0 0 0 14 3.5v13a1.5 1.5 0 0 0 1.5 1.5h1a1.5 1.5 0 0 0 1.5-1.5v-13A1.5 1.5 0 0 0 16.5 2h-1ZM9.5 6A1.5 1.5 0 0 0 8 7.5v9A1.5 1.5 0 0 0 9.5 18h1a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 10.5 6h-1ZM3.5 10A1.5 1.5 0 0 0 2 11.5v5A1.5 1.5 0 0 0 3.5 18h1A1.5 1.5 0 0 0 6 16.5v-5A1.5 1.5 0 0 0 4.5 10h-1Z" />
+        </svg>
+                    <span className="button-text">Download Excel</span>
+                </button>
         <button class="share-button">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
-  <path fill-rule="evenodd" d="M15.75 4.5a3 3 0 1 1 .825 2.066l-8.421 4.679a3.002 3.002 0 0 1 0 1.51l8.421 4.679a3 3 0 1 1-.729 1.31l-8.421-4.678a3 3 0 1 1 0-4.132l8.421-4.679a3 3 0 0 1-.096-.755Z" clip-rule="evenodd" />
-</svg>
-
+        <path fill-rule="evenodd" d="M15.75 4.5a3 3 0 1 1 .825 2.066l-8.421 4.679a3.002 3.002 0 0 1 0 1.51l8.421 4.679a3 3 0 1 1-.729 1.31l-8.421-4.678a3 3 0 1 1 0-4.132l8.421-4.679a3 3 0 0 1-.096-.755Z" clip-rule="evenodd" />
+        </svg>
         <span class="button-text">Share</span>
-        </button>
+        </button>    
         </div>
-
-    
             <button className="back-button" onClick={handleBackButtonClick}>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="back-icon">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
@@ -180,7 +207,7 @@ const PastRecords = () => {
                             <td className="bold-text">{record.amount}</td>
                             <td className="bold-text">{record.quantity}</td>
                             <td className="bold-text">{record.category}</td>
-                            <td className="bold-text">{new Date(record.date).toLocaleDateString()}</td>
+                            <td className="bold-text">{new Date(record.date).toLocaleDateString('en-GB')}</td>
                             <td>{record.details}</td>
                             <td className="actions-cell">
                                 <button

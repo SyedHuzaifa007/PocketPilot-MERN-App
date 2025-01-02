@@ -19,7 +19,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 50px;
-    padding-top: 470px; /* Adjusted padding to avoid overlap with navbar */
+    padding-top: 490px; /* Adjusted padding to avoid overlap with navbar */
 }
 
 /* Navbar */

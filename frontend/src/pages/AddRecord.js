@@ -16,7 +16,6 @@ const AddRecord = () => {
         details: '',
     });
 
-
     const [categories, setCategories] = useState([
         { name: 'Food', color: '#f39c12' },
         { name: 'Transport', color: '#3498db' },
@@ -25,6 +24,7 @@ const AddRecord = () => {
     ]);
 
     const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
+    const [error, setError] = useState('');
 
     // Fetch categories from the backend
     const fetchCategories = async () => {
@@ -45,6 +45,7 @@ const AddRecord = () => {
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
+        setError(''); // Clear the error when the user starts typing
     };
 
     // Handle category selection
@@ -96,30 +97,36 @@ const AddRecord = () => {
         };
     }, []);
 
-
-    // Fetch categories on component mount
-    useEffect(() => {
-        fetchCategories();
-    }, []);
-
-
-
-    // Close dropdown when clicking outside
-    useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (!event.target.closest('.custom-dropdown')) {
-                setShowCategoryDropdown(false);
-            }
-        };
-        document.addEventListener('click', handleClickOutside);
-        return () => {
-            document.removeEventListener('click', handleClickOutside);
-        };
-    }, []);
+    // Validate the form data before submission
+    const validateForm = () => {
+        if (!formData.name.trim()) {
+            setError('Name is required');
+            return false;
+        }
+        if (!formData.amount || formData.amount <= 0) {
+            setError('Amount is required and must be greater than 0');
+            return false;
+        }
+        if (!formData.category.trim()) {
+            setError('Category is required');
+            return false;
+        }
+        if (!formData.date.trim()) {
+            setError('Date is required');
+            return false;
+        }
+        return true;
+    };
 
     // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
+        
+        // Validate the form
+        if (!validateForm()) {
+            return; // If validation fails, stop form submission
+        }
+
         // Prepare form data including media (if any)
         const form = new FormData();
         form.append('name', formData.name);
@@ -154,6 +161,8 @@ const AddRecord = () => {
                     media: null,
                     details: '',
                 });
+                handleBackButtonClick(); // Navigate to the dashboard page
+
             } else {
                 alert('Failed to add the record');
             }
@@ -188,6 +197,7 @@ const AddRecord = () => {
                 <span className="back-text">Back</span>
             </button>
             <h2 className="form-heading">Add New Record</h2>
+            {error && <div className="error-message">{error}</div>} {/* Display error message */}
             <form className="add-record-form" onSubmit={handleSubmit}>
                 <div className="form-row">
                     <div className="form-group">
@@ -231,8 +241,8 @@ const AddRecord = () => {
                     </div>
                 </div>
                 <div className="form-row">
-                <div className="form-group">
-                <label>Category:</label>
+                    <div className="form-group">
+                        <label>Category:</label>
                         <div className="custom-dropdown">
                             <div
                                 className="dropdown-selected"
@@ -286,8 +296,8 @@ const AddRecord = () => {
                 </div>
             </form>
             <div className="form-row submit-row">
-        <button type="submit" className="submit-button" onClick={handleSubmit}>Add Record</button>
-    </div>
+                <button type="submit" className="submit-button" onClick={handleSubmit}>Add Record</button>
+            </div>
         </div>
     );
 };
