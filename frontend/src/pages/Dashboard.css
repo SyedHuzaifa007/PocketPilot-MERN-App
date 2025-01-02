@@ -22,74 +22,115 @@ body {
     padding-top: 470px; /* Adjusted padding to avoid overlap with navbar */
 }
 
-/* Navbar */
+/* General Navbar Styling */
 .navbar {
     display: flex;
-    justify-content: center; /* Center content horizontally in the navbar */
+    justify-content: space-between;
     align-items: center;
     background-color: #2c3e50;
     color: white;
-    padding: 15px 30px; /* Adjusted padding for better spacing */
+    padding: 20px 30px; /* Add more padding to ensure better spacing */
     position: fixed;
     top: 0;
-    left: 0; /* Corrected the left offset to 0 */
-    width: 100%; /* Full width of the screen */
+    left: 0;
+    width: 100%; /* Ensures the navbar spans full width */
     z-index: 100;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    border: 5px solid transparent; /* Transparent border to allow gradient border */
-    border-image: linear-gradient(45deg, #434242, #614485) 1; /* Gradient border */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    border-bottom: 2px solid #34495e;
+    overflow: hidden; /* Prevents any overflow */
 }
 
-/* Navbar Heading */
+/* Navbar Left */
+.navbar-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
 .navbar-heading {
-    font-size: 36px;
+    font-size: 32px;
     font-family: 'Poppins', sans-serif;
     font-weight: bold;
-    text-align: center;
-    margin: 10px 400px; /* Ensure the text itself is centered */
-    flex: 1; /* Make the heading take up available space */
+    color: #fff;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: color 0.3s ease;
 }
 
+.navbar-heading:hover {
+    color: #7f8c8d; /* Hover effect for the navbar title */
+}
 
-/* Dropdown Menu */
+/* Navbar Right (Dropdown) */
+.navbar-right {
+    display: flex;
+    align-items: center;
+}
+
+.dropdown {
+    position: relative;
+}
+
 .dropdown-toggle {
     background: none;
     border: none;
     color: white;
-    font-size: 40px;
+    font-size: 30px;
     cursor: pointer;
-    margin-right: 20px;
-    padding: 0 20px;
+    padding: 0 10px;
+    transition: color 0.3s ease;
+}
+
+.dropdown-toggle:hover {
+    color: #7f8c8d; /* Change color on hover */
 }
 
 .dropdown-menu {
     position: absolute;
-    top: calc(100% + 5px);
+    top: 100%;
     right: 0;
-    background-color: white;
-    border: 1px solid #bdc3c7;
+    background-color: #34495e;
     border-radius: 8px;
     display: none;
     flex-direction: column;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
 }
 
 .dropdown:hover .dropdown-menu {
     display: flex;
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
 }
 
 .dropdown-item {
     padding: 12px 20px;
     cursor: pointer;
-    background-color: white;
+    background-color: #34495e;
     border: none;
-    color: #2c3e50;
+    color: white;
     text-align: left;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s ease;
 }
 
 .dropdown-item:hover {
-    background-color: #f0f0f0;
+    background-color: #2c3e50;
+}
+
+/* Logo/Icon Style */
+.navbar-logo {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+    transition: transform 0.3s ease;
+}
+
+.navbar-logo:hover {
+    transform: rotate(360deg); /* Add a rotation effect to the logo */
 }
 
 /* Greeting Text Styling */
@@ -151,6 +192,47 @@ body {
     color: #2ecc71;
     font-weight: 700;
 }
+
+
+.percentage-change {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.positive-change {
+    color: #2ecc71; /* Green for positive changes */
+    display: flex;
+    align-items: center;
+}
+
+.negative-change {
+    color: #e74c3c; /* Red for negative changes */
+    display: flex;
+    align-items: center;
+}
+
+.arrow {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin-right: 5px;
+    border-style: solid;
+}
+
+.arrow.up {
+    border-width: 0 6px 10px 6px;
+    border-color: transparent transparent #2ecc71 transparent;
+}
+
+.arrow.down {
+    border-width: 10px 6px 0 6px;
+    border-color: #e74c3c transparent transparent transparent;
+}
+
 
 /* Buttons Section */
 .buttons-container {
