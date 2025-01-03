@@ -2,7 +2,7 @@
 .past-records-container {
     position: relative;
     font-family: 'Roboto', sans-serif;
-    max-width: 1200px;
+    max-width: 1300px;
 }
 
 /* Heading Style */
@@ -17,16 +17,19 @@
 }
 
 /* Table Styling */
+/* Table Styling */
 .records-table {
-    width: 100%;
+    width: 110%; /* Increased width to 110% */
+    margin-bottom: 50px;
     border-radius: 10px;
     overflow: hidden;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     border-collapse: collapse;
     display: block;
-    max-height: 600px; /* Set a max-height for the table */
+    max-height: 590px; /* Set a max-height for the table */
     overflow-y: auto;  /* Enable scrolling if records exceed the table height */
 }
+
 
 /* Table Header Styling */
 .records-table th {
@@ -35,6 +38,7 @@
     padding: 15px;
     text-align: left;
     font-size: 16px;
+    height: 70px;
     letter-spacing: 1px;
     position: sticky;
     top: 0; /* Make the header stick to the top */

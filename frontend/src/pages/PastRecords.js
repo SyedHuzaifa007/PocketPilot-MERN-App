@@ -19,7 +19,11 @@ const PastRecords = () => {
                     ...record,
                     id: record._id, // Map _id to id for frontend compatibility
                 }));
-                setRecords(recordsWithId);
+    
+                // Sort records by date in descending order (most recent first)
+                const sortedRecords = recordsWithId.sort((a, b) => new Date(b.date) - new Date(a.date));
+    
+                setRecords(sortedRecords);
                 setLoading(false);
             } catch (error) {
                 console.error('Error fetching records:', error);
@@ -29,6 +33,7 @@ const PastRecords = () => {
         
         fetchRecords();
     }, []);
+    
 
     const handleBackButtonClick = () => {
         navigate('/dashboard'); // Navigate to the dashboard page

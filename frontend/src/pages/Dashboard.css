@@ -19,7 +19,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 50px;
-    padding-top: 490px; /* Adjusted padding to avoid overlap with navbar */
+    padding-top: 1925px; /* Adjusted padding to avoid overlap with navbar */
 }
 
 /* Navbar */
@@ -92,19 +92,18 @@ body {
     background-color: #f0f0f0;
 }
 
-/* Greeting Text Styling */
+/* Greeting Section */
 .greeting-message {
     text-align: center;
-    margin-top: 0px; /* Increased margin to push the greeting below the navbar */
 }
 
 .gradient-text {
-    font-size: 32px;
+    font-size: 28px;
     font-weight: bold;
-    background: linear-gradient(45deg, #786eff, #7851a9);
+    background: linear-gradient(90deg, #3498db, #9b59b6);
     background-clip: text;
     color: transparent;
-    animation: gradientAnimation 3s ease-in-out infinite;
+    animation: gradientAnimation 5s ease infinite;
 }
 
 @keyframes gradientAnimation {
@@ -128,30 +127,34 @@ body {
 }
 
 .card {
-    flex: 1 1 22%;
+    flex: 1 1 calc(25% - 20px);
     background-color: white;
     padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
     text-align: center;
-    font-size: 18px;
-    font-weight: bold;
-    color: #2d3436;
     min-width: 240px;
-    max-width: 260px;
+    max-width: 300px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
 
 .card h3 {
+    font-size: 18px;
+    font-weight: bold;
+    color: #2c3e50;
     margin-bottom: 10px;
-    font-size: 20px;
 }
 
 .card-amount {
-    font-size: 24px;
-    color: #2ecc71;
-    font-weight: 700;
+    font-size: 22px;
+    color: #27ae60;
+    font-weight: bold;
 }
-
 
 .percentage-change {
     display: flex;
@@ -224,7 +227,8 @@ body {
 /* Graphs Section */
 .graphs-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    grid-template-columns: repeat(2, 1fr); /* 3 columns */
+    grid-template-rows: repeat(4, 500px); /* 2 rows */
     gap: 25px;
 }
 
@@ -236,19 +240,35 @@ body {
     text-align: center;
     color: #2d3436;
     font-size: 16px;
-    height: 300px;
+    height: 500px;
 }
 
 .graph-placeholder {
-    background-color: #ecf0f1;
-    height: 100%;
-    border-radius: 8px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 18px;
-    color: #7f8c8d;
-    font-weight: 600;
+    max-width: 50%;
+    min-width: 580px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    transition: all 0.3s ease;
+}
+
+.chart-container {
+    /* Makes each chart take up 1/3 of the container */
+    flex: 1 1 calc(33% - 20px); 
+    max-width: 50%;
+    min-width: 580px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    transition: all 0.3s ease;
+  }
+  
+.chart-title {
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 20px;
 }
 
 /* Media Queries for Smaller Screens */
