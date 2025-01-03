@@ -26,9 +26,18 @@ console.log('Serving static files from:', path.join(__dirname, 'uploads'));
 app.use(express.json()); // To parse JSON bodies
 app.use(bodyParser.json()); 
 app.use(cors({
-    origin: 'http://localhost:3000', // Allow only frontend to access the API
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    origin: 'http://localhost:3000', // Allow frontend
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Include OPTIONS for preflight checks
+    allowedHeaders: ['Content-Type', 'Authorization'], // Explicitly allow headers
 }));
+
+app.options('/uploads/*', (req, res) => {
+    res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+    res.header('Access-Control-Allow-Methods', 'GET, OPTIONS');
+    res.sendStatus(200);
+});
+
+
 
 
 
@@ -43,12 +52,16 @@ app.use('/api/categories', categoryRoutes);
 // Configure multer storage
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'uploads'); // Directory where files will be saved
+        console.log('Saving to uploads folder');
+        cb(null, '/Volumes/Work/Personal Projects/Spendify-MERN-App/backend/src/uploads');
     },
     filename: (req, file, cb) => {
-        cb(null, `${Date.now()}-${file.originalname}`); // Unique file name
+        const uniqueFilename = `${Date.now()}-${file.originalname}`;
+        console.log('Generated filename:', uniqueFilename);
+        cb(null, uniqueFilename);
     },
 });
+
 
 // Middleware for file upload
 const upload = multer({
@@ -107,8 +120,11 @@ app.put('/api/records/:id', upload.single('media'), async (req, res) => {
 
     // If media is uploaded, include the file path
     if (req.file) {
-        updateData.media = `/uploads/${req.file.filename}`;
+        updateData.media = `uploads/${req.file.filename}`; // No leading slash
     }
+    const media = req.file ? `uploads/${req.file.filename}` : null; // No leading slash
+
+    
 
     try {
         // Update the record in the database

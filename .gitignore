@@ -2,3 +2,4 @@ node_modules/
 .env
 dist/
 build/
+/Volumes/Work/Personal Projects/Spendify-MERN-App/backend/src/uploads

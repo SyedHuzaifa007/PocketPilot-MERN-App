@@ -28,6 +28,11 @@ const RecordDetails = () => {
         navigate(-1); // Go back to the previous page
     };
 
+    // Open the image in a new window
+    const handleImageClick = (imageUrl) => {
+        window.open(imageUrl, '_blank'); // Open the image in a new tab
+    };
+
     if (loading) {
         return <div className="loading-message">Loading record details...</div>;
     }
@@ -39,7 +44,7 @@ const RecordDetails = () => {
     return (
         <div className="record-details-container">
             <button className="back-button" onClick={handleBack}>
-            <svg
+                <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
@@ -54,7 +59,7 @@ const RecordDetails = () => {
                     />
                 </svg>
                 <span className="back-text">Back</span>
-                </button>
+            </button>
             <h1 className="record-title">Record Details</h1>
             <div className="record-details">
                 <p><strong>Name:</strong> {record.name}</p>
@@ -64,22 +69,18 @@ const RecordDetails = () => {
                 <p><strong>Category:</strong> {record.category}</p>
                 <p><strong>Date:</strong> {new Date(record.date).toLocaleDateString()}</p>
                 <p><strong>Details:</strong> {record.details}</p>
+
                 {/* Check if there are media files */}
-                {record.media && record.media.length > 0 && (
+                {record.media && (
                     <div className="media-section">
                         <h4>Media</h4>
-                        <h4>{record.media}</h4>
                         <div className="media-item">
-                            {record.media.startsWith('uploads/') ? (
-                               <img src={`http://localhost:5000${record.media}`} alt="Media file"
-                               className="media-image"
-                           />                           
-                           
-                            ) : (
-                                <a href={`http://localhost:5000/${record.media.replace(/^\/+/, '')}`} target="_blank" rel="noopener noreferrer">
-                                    {record.media.split('/').pop()} {/* Show file name */}
-                                </a>
-                            )}
+                            <img 
+                                src={`http://localhost:5000/${record.media}`} 
+                                alt="Uploaded File" 
+                                className="media-image"
+                                onClick={() => handleImageClick(`http://localhost:5000/${record.media}`)} // Open in a new tab
+                            />
                         </div>
                     </div>
                 )}
