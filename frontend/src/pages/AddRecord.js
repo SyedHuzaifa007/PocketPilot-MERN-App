@@ -16,13 +16,7 @@ const AddRecord = () => {
         details: '',
     });
 
-    const [categories, setCategories] = useState([
-        { name: 'Food', color: '#f39c12' },
-        { name: 'Transport', color: '#3498db' },
-        { name: 'Entertainment', color: '#e74c3c' },
-        { name: 'Shopping', color: '#9b59b6' },
-    ]);
-
+    const [categories, setCategories] = useState([]);
     const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
     const [error, setError] = useState('');
 
@@ -54,25 +48,42 @@ const AddRecord = () => {
         setShowCategoryDropdown(false);
     };
 
+    // Generate a random color
+    const generateRandomColor = () => {
+        return `#${Math.floor(Math.random() * 16777215).toString(16)}`; // Random hex color code
+    };
+
     // Handle category addition
     const handleAddCategory = async () => {
-        if (
-            !categories.some((cat) => cat.name === formData.category) &&
-            formData.category.trim() !== ''
-        ) {
-            const newColor = `#${Math.floor(Math.random() * 16777215).toString(16)}`; // Random color
-            try {
-                const response = await axios.post('http://localhost:5000/api/categories', {
-                    name: formData.category,
-                    color: newColor,
-                });
-                // Add the new category to the categories state
-                setCategories([...categories, response.data]);
-                // Reset category input field
-                setFormData({ ...formData, category: '' });
-            } catch (error) {
-                console.error('Error adding category:', error);
-            }
+        if (formData.category.trim() === '') {
+            setError('Category name cannot be empty');
+            return;
+        }
+
+        if (categories.some((cat) => cat.name === formData.category)) {
+            setError('Category already exists');
+            return;
+        }
+
+        const newCategory = {
+            name: formData.category.trim(),
+            color: generateRandomColor(),
+        };
+
+        try {
+            // Send new category to backend for saving
+            const response = await axios.post('http://localhost:5000/api/categories', newCategory);
+
+            // Add the new category to the existing categories list
+            setCategories([...categories, response.data]);
+
+            // Reset category input field
+            setFormData({ ...formData, category: '' });
+
+            setError(''); // Clear any errors
+        } catch (error) {
+            console.error('Error adding category:', error);
+            setError('Failed to add category');
         }
     };
 
@@ -162,7 +173,6 @@ const AddRecord = () => {
                     details: '',
                 });
                 handleBackButtonClick(); // Navigate to the dashboard page
-
             } else {
                 alert('Failed to add the record');
             }

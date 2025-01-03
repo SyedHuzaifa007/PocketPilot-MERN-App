@@ -1,33 +1,42 @@
-// const express = require('express');
-// const Category = require('./models/category'); // Ensure the path is correct
+// routes/categoryRoutes.js
+const express = require('express');
+const router = express.Router();
+const Category = require('../models/Category');
 
-// const router = express.Router();
+// GET all categories
+router.get('/', async (req, res) => {
+    try {
+        const categories = await Category.find();
+        res.json(categories);
+    } catch (error) {
+        console.error('Error fetching categories:', error);
+        res.status(500).json({ message: 'Error fetching categories' });
+    }
+});
 
-// // Route to get all categories
-// router.get('/categories', async (req, res) => {
-//     try {
-//         const categories = await Category.find(); // Fetch all categories from DB
-//         res.json(categories); // Return the categories as a JSON response
-//     } catch (err) {
-//         res.status(500).json({ message: err.message }); // Error handling
-//     }
-// });
+// POST new category
+router.post('/', async (req, res) => {
+    console.log('Request body:', req.body);  // Log the request body
 
-// // Route to add a new category
-// router.post('/categories', async (req, res) => {
-//     const { name, color } = req.body; // Extract name and color from the request body
+    const { name, color } = req.body;
 
-//     const newCategory = new Category({
-//         name,
-//         color,
-//     });
+    try {
+        // Check if category already exists
+        const existingCategory = await Category.findOne({ name });
+        if (existingCategory) {
+            return res.status(400).json({ message: 'Category already exists' });
+        }
 
-//     try {
-//         const savedCategory = await newCategory.save(); // Save the new category to DB
-//         res.status(201).json(savedCategory); // Return the saved category
-//     } catch (err) {
-//         res.status(400).json({ message: err.message }); // Error handling
-//     }
-// });
+        const newCategory = new Category({ name, color });
+        await newCategory.save();
 
-// module.exports = router;
+        console.log('New category added:', newCategory);  // Log the newly added category
+        res.status(201).json(newCategory);
+    } catch (error) {
+        console.error('Error adding category:', error);
+        res.status(500).json({ message: 'Error adding category' });
+    }
+});
+
+
+module.exports = router;

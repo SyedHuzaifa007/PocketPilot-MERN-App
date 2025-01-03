@@ -3,11 +3,12 @@ const mongoose = require("mongoose");
 const multer = require("multer");
 const dotenv = require("dotenv");
 const cors = require("cors");
+const bodyParser = require('body-parser');
 const Record = require('./models/Record');
 const authRoutes = require("./routes/authRoutes");
 const recordRoutes = require('./routes/recordRoutes');
 const path = require('path');
-// const categoryRoutes = require('./routes/categoryRoutes'); 
+const categoryRoutes = require('./routes/categoryRoutes'); 
 
 // Load environment variables
 dotenv.config();
@@ -21,12 +22,9 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 console.log('Serving static files from:', path.join(__dirname, 'uploads'));
 
 
-
-
-
-
 // Middleware
 app.use(express.json()); // To parse JSON bodies
+app.use(bodyParser.json()); 
 app.use(cors({
     origin: 'http://localhost:3000', // Allow only frontend to access the API
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
@@ -39,7 +37,7 @@ app.use("/api/auth", authRoutes);
  // Mount routes at /api
 
 app.use("/api", recordRoutes); // This will handle routes like /api/records
-
+app.use('/api/categories', categoryRoutes);
 
 
 // Configure multer storage
