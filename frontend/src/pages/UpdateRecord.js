@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom'; // React Router v6
 import axios from 'axios';
-import './AddRecord.css';
+import './UpdateRecord.css';
 
 const UpdateRecord = () => {
     const navigate = useNavigate();
@@ -287,10 +287,14 @@ const UpdateRecord = () => {
                         ></textarea>
                     </div>
                 </div>
-                <div className="form-row submit-row">
-                    <button type="submit" className="submit-button">
+                <div className='submit'>
+                <div className="form-row">
+                    <div className='submit-row'>
+                    <button type="submit" className="submit-button1">
                         Update Record
                     </button>
+                    </div>
+                    </div>
                 </div>
             </form>
         </div>

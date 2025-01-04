@@ -9,6 +9,7 @@ import PastRecords from './pages/PastRecords';
 import UpdateRecord from './pages/UpdateRecord';
 import RecordDetails from './pages/RecordDetails';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import GenerateReport from "./pages/GenerateReport";
 
 
 function App() {
@@ -35,6 +36,7 @@ function App() {
                 <Route path="/past-records" element={<PastRecords />} />
                 <Route path="/update-record/:id" element={<UpdateRecord />} />
                 <Route path="/record-details/:id" element={<RecordDetails />} />
+                <Route path="/generate-report" element={<GenerateReport />} />
                 <Route path="*" element={<Navigate to="/login" />} />
             </Routes>
         </Router>

@@ -17,9 +17,8 @@
 }
 
 /* Table Styling */
-/* Table Styling */
 .records-table {
-    width: 110%; /* Increased width to 110% */
+    width: 102%;
     margin-bottom: 50px;
     border-radius: 10px;
     overflow: hidden;
@@ -29,7 +28,6 @@
     max-height: 590px; /* Set a max-height for the table */
     overflow-y: auto;  /* Enable scrolling if records exceed the table height */
 }
-
 
 /* Table Header Styling */
 .records-table th {

@@ -19,7 +19,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 50px;
-    padding-top: 1925px; /* Adjusted padding to avoid overlap with navbar */
+    padding-top: 2360px; /* Adjusted padding to avoid overlap with navbar */
 }
 
 /* Navbar */
@@ -95,6 +95,7 @@ body {
 /* Greeting Section */
 .greeting-message {
     text-align: center;
+    font-weight: bold;
 }
 
 .gradient-text {
@@ -234,7 +235,7 @@ body {
 
 .graph {
     background-color: white;
-    padding: 40px;
+    padding: 20px;
     border-radius: 12px;
     box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);
     text-align: center;
@@ -270,6 +271,67 @@ body {
         font-weight: bold;
         margin-bottom: 20px;
 }
+
+
+/* Footer.css */
+.footer {
+    background-color: #2c3e50;
+    color: #ecf0f1;
+    padding: 20px 0;
+    text-align: center;
+  }
+  
+  .footer-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 10px;
+  }
+  
+  .footer-section {
+    flex: 1;
+    min-width: 250px;
+    margin: 10px;
+  }
+  
+  .footer-section h4 {
+    border-bottom: 2px solid #ecf0f1;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+  }
+  
+  .footer-section p,
+  .footer-section ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    line-height: 1.6;
+  }
+  
+  .footer-section ul li {
+    margin: 5px 0;
+  }
+  
+  .footer-section ul li a {
+    color: #ecf0f1;
+    text-decoration: none;
+  }
+  
+  .footer-section ul li a:hover {
+    text-decoration: underline;
+  }
+  
+  .footer-bottom {
+    margin-top: 20px;
+    font-size: 0.9em;
+  }
+  
+  .footer-bottom p {
+    margin: 0;
+  }
+
 
 /* Media Queries for Smaller Screens */
 @media (max-width: 768px) {

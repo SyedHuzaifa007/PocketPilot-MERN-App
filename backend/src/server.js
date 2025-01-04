@@ -37,6 +37,30 @@ app.options('/uploads/*', (req, res) => {
     res.sendStatus(200);
 });
 
+app.get('/api/generate-report', async (req, res) => {
+    const { start, end } = req.query;
+    if (!start || !end) {
+        return res.status(400).send('Start and end dates are required');
+    }
+
+    try {
+        // Fetch data based on the date range
+        const data = await fetchDataWithinDateRange(start, end); // Implement this function to get data from DB
+
+        // Generate PDF report with graphs
+        const pdfBuffer = await generatePDFReport(data, start, end); 
+
+        // Set headers to prompt download
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Content-Disposition', 'attachment; filename=report.pdf');
+        res.send(pdfBuffer);
+
+    } catch (error) {
+        console.error('Error generating report:', error);
+        res.status(500).send('Error generating report');
+    }
+});
+
 
 
 

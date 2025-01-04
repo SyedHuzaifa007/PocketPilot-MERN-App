@@ -112,137 +112,186 @@ const getCategoryColor = (category, categoryMapping) => {
 
   // 3. Income by Months (Past Year)
   const processIncomeByMonths = () => {
-    const incomeData = data.filter(record => record.status === 'Income').map(record => ({
-      month: new Date(record.date).getMonth() + 1,  // 1-12 for months
-      amount: record.amount || 0,
-    }));
-
-    // Group income by month
+    const incomeData = data
+      .filter(record => record.status === 'Income')
+      .map(record => {
+        const date = new Date(record.date);
+        const month = date.getMonth(); // 0-11 for months
+        const year = date.getFullYear();
+        const monthName = date.toLocaleString('default', { month: 'long' }); // Get full month name
+  
+        return {
+          monthYear: `${monthName}, ${year}`, // Format as "Month, Year"
+          amount: record.amount || 0,
+        };
+      });
+  
+    // Group income by month-year
     const groupedData = incomeData.reduce((acc, curr) => {
-      if (!acc[curr.month]) {
-        acc[curr.month] = 0;
+      if (!acc[curr.monthYear]) {
+        acc[curr.monthYear] = 0;
       }
-      acc[curr.month] += curr.amount;
+      acc[curr.monthYear] += curr.amount;
       return acc;
     }, {});
-
+  
     // Convert grouped data into an array of objects
-    return Object.keys(groupedData).map(month => ({
-      month,
-      amount: groupedData[month],
+    return Object.keys(groupedData).map(monthYear => ({
+      month: monthYear, // Use formatted "Month, Year"
+      amount: groupedData[monthYear],
     }));
   };
-
-  // 4. Expense by Months (Past Year)
+  
   const processExpenseByMonths = () => {
-    const expenseData = data.filter(record => record.status === 'Expense').map(record => ({
-      month: new Date(record.date).getMonth() + 1, // 1-12 for months
-      amount: record.amount || 0,
-    }));
-
-    // Group expense by month
+    const expenseData = data
+      .filter(record => record.status === 'Expense')
+      .map(record => {
+        const date = new Date(record.date);
+        const month = date.getMonth(); // 0-11 for months
+        const year = date.getFullYear();
+        const monthName = date.toLocaleString('default', { month: 'long' }); // Get full month name
+  
+        return {
+          monthYear: `${monthName}, ${year}`, // Format as "Month, Year"
+          amount: record.amount || 0,
+        };
+      });
+  
+    // Group expense by month-year
     const groupedData = expenseData.reduce((acc, curr) => {
-      if (!acc[curr.month]) {
-        acc[curr.month] = 0;
+      if (!acc[curr.monthYear]) {
+        acc[curr.monthYear] = 0;
       }
-      acc[curr.month] += curr.amount;
+      acc[curr.monthYear] += curr.amount;
       return acc;
     }, {});
-
+  
     // Convert grouped data into an array of objects
-    return Object.keys(groupedData).map(month => ({
-      month,
-      amount: groupedData[month],
+    return Object.keys(groupedData).map(monthYear => ({
+      month: monthYear, // Use formatted "Month, Year"
+      amount: groupedData[monthYear],
     }));
   };
-
-  // 5. Income by Categories (Last 30 Days)
-  const processIncomeByCategory = () => {
-    const incomeData = data.filter(record => record.status === 'Income').map(record => ({
-        category: record.category || 'Uncategorized',
-        amount: isNaN(record.amount) ? 0 : record.amount, // Ensure valid amount
-    }));
-
-    console.log(incomeData);
-
-    // Group income by category
-    const groupedData = incomeData.reduce((acc, curr) => {
-      if (!acc[curr.category]) {
-        acc[curr.category] = 0;
-      }
-      acc[curr.category] += curr.amount;
-      return acc;
-    }, {});
-
-    // Convert grouped data into an array of objects
-    return Object.keys(groupedData).map(category => ({
-      category,
-      value: groupedData[category],
-    }));
-  };
-
-  // 6. Expense by Categories (Last 30 Days)
-  const processExpenseByCategory = () => {
-    const expenseData = data.filter(record => record.status === 'Expense').map(record => ({
+  
+// 5. Income by Categories (Last 30 Days)
+const processIncomeByCategory = () => {
+  const incomeData = data
+    .filter(record => record.status === 'Income' && isValidDate(record.date))
+    .map(record => ({
       category: record.category || 'Uncategorized',
-      amount: record.amount || 0,
+      amount: isNaN(record.amount) ? 0 : record.amount, // Ensure valid amount
     }));
-    console.log(expenseData);
 
-    // Group expense by category
-    const groupedData = expenseData.reduce((acc, curr) => {
-      if (!acc[curr.category]) {
-        acc[curr.category] = 0;
-      }
-      acc[curr.category] += curr.amount;
-      return acc;
-    }, {});
+  // Group income by category
+  const groupedData = incomeData.reduce((acc, curr) => {
+    if (!acc[curr.category]) {
+      acc[curr.category] = 0;
+    }
+    acc[curr.category] += curr.amount;
+    return acc;
+  }, {});
 
-    // Convert grouped data into an array of objects
-    return Object.keys(groupedData).map(category => ({
-      category,
-      value: groupedData[category],
+  // Convert grouped data into an array of objects
+  const result = Object.keys(groupedData).map(category => ({
+    category,
+    value: groupedData[category],
+  }));
+
+  return result.length > 0 ? result : [{ category: "Income", value: "No Data" }];
+};
+
+// 6. Expense by Categories (Last 30 Days)
+const processExpenseByCategory = () => {
+  const expenseData = data
+    .filter(record => record.status === 'Expense' && isValidDate(record.date))
+    .map(record => ({
+      category: record.category || 'Uncategorized',
+      amount: isNaN(record.amount) ? 0 : record.amount, // Ensure valid amount
     }));
-  };
+
+  // Group expense by category
+  const groupedData = expenseData.reduce((acc, curr) => {
+    if (!acc[curr.category]) {
+      acc[curr.category] = 0;
+    }
+    acc[curr.category] += curr.amount;
+    return acc;
+  }, {});
+
+  // Convert grouped data into an array of objects
+  const result = Object.keys(groupedData).map(category => ({
+    category,
+    value: groupedData[category],
+  }));
+
+  return result.length > 0 ? result : [{ category: "Expense", value: "No Data" }];
+};
+
+// Helper to validate date (last 30 days)
+const isValidDate = (dateStr) => {
+  const date = new Date(dateStr);
+  const now = new Date();
+  const thirtyDaysAgo = new Date(now.setDate(now.getDate() - 30));
+  return date >= thirtyDaysAgo && date <= new Date();
+};
 
   // 7. Comparison between Income and Expenses (This Month vs Last Month)
   const comparisonData = () => {
-    const currentMonth = new Date().getMonth() + 1;
-    const lastMonth = currentMonth === 1 ? 12 : currentMonth - 1;
+  const currentMonth = new Date().getMonth() + 1; // 1-based index
+  const currentYear = new Date().getFullYear();
 
-    const incomeCurrentMonth = data.filter(record => record.status === 'Income' && new Date(record.date).getMonth() + 1 === currentMonth)
-                                    .reduce((acc, record) => acc + (record.amount || 0), 0);
+  // Helper function to calculate income or expense for a given month and year
+  const calculateAmount = (status, month, year) =>
+    data
+      .filter(record => {
+        const recordDate = new Date(record.date);
+        return (
+          record.status === status &&
+          recordDate.getMonth() + 1 === month &&
+          recordDate.getFullYear() === year
+        );
+      })
+      .reduce((acc, record) => acc + (record.amount || 0), 0);
 
-    const incomeLastMonth = data.filter(record => record.status === 'Income' && new Date(record.date).getMonth() + 1 === lastMonth)
-                                 .reduce((acc, record) => acc + (record.amount || 0), 0);
+  // Generate data for the current month and the last 6 months
+  const comparisonData = [];
+  for (let i = 0; i < 7; i++) {
+    const date = new Date(currentYear, currentMonth - 1 - i, 1); // Go back month by month
+    const monthName = date.toLocaleString('default', { month: 'long' }); // Get full month name
+    const year = date.getFullYear();
 
-    const expenseCurrentMonth = data.filter(record => record.status === 'Expense' && new Date(record.date).getMonth() + 1 === currentMonth)
-                                     .reduce((acc, record) => acc + (record.amount || 0), 0);
+    comparisonData.push({
+      month: `${monthName}, ${year}`, // e.g., "November, 2024"
+      income: calculateAmount('Income', date.getMonth() + 1, year),
+      expense: calculateAmount('Expense', date.getMonth() + 1, year),
+    });
+  }
 
-    const expenseLastMonth = data.filter(record => record.status === 'Expense' && new Date(record.date).getMonth() + 1 === lastMonth)
-                                  .reduce((acc, record) => acc + (record.amount || 0), 0);
+  return comparisonData.reverse(); // Reverse to show the earliest month first
+};
 
-    return [
-      { category: 'Income', thisMonth: incomeCurrentMonth, lastMonth: incomeLastMonth },
-      { category: 'Expense', thisMonth: expenseCurrentMonth, lastMonth: expenseLastMonth },
-    ];
-  };
 
 
   // 8. Categories with Most Spending and Income
   const spendingAndIncomeCategories = () => {
     const incomeByCategory = processIncomeByCategory();
     const expenseByCategory = processExpenseByCategory();
-
-    // const topIncomeCategory = incomeByCategory.sort((a, b) => b.value - a.value)[0];
-    // const topExpenseCategory = expenseByCategory.sort((a, b) => b.value - a.value)[0];
-
-    const topIncomeCategory = "TopIncomeCountry";
-    const topExpenseCategory = "TopExpenseCountry";
-
+  
+    // Safely get the top categories or return default values
+    const topIncomeCategory = incomeByCategory.length > 0 
+      ? incomeByCategory.sort((a, b) => b.value - a.value)[0] 
+      : { category: "Income", value: "No Data" };
+  
+    const topExpenseCategory = expenseByCategory.length > 0 
+      ? expenseByCategory.sort((a, b) => b.value - a.value)[0] 
+      : { category: "Expense", value: "No Data" };
+  
     return { topIncomeCategory, topExpenseCategory };
   };
 
+  const currentYear = new Date().getFullYear();
+
+  
     const fetchRecords = async () => {
         try {
             const response = await fetch('http://localhost:5000/api/records');
@@ -344,6 +393,7 @@ const getCategoryColor = (category, categoryMapping) => {
 
     const handleAddRecordButtonClick = () => navigate('/add-record');
     const handlePastRecordsButtonClick = () => navigate('/past-records');
+    const handleGenerateReportButtonClick = () => navigate('/generate-report');
 
     const handleLogout = () => {
         if (window.confirm('Are you sure you want to log out?')) {
@@ -445,13 +495,15 @@ const getCategoryColor = (category, categoryMapping) => {
                 <button className="action-button" onClick={handlePastRecordsButtonClick}>
                     <FaChartLine /> Past Records
                 </button>
-                <button className="action-button">
+                <button className="action-button" onClick={handleGenerateReportButtonClick}>
                     <FaChartBar /> Generate Report
                 </button>
                 <button className="action-button">
                     <FaChartPie /> Generate Analysis
                 </button>
             </div>
+
+            <h3 className="greeting-message">Detailed Analysis</h3>
 
             <div className="graphs-container">
   <div className="graph">
@@ -477,7 +529,7 @@ const getCategoryColor = (category, categoryMapping) => {
         <YAxis />
         <Tooltip />
         <Legend />
-        <Line type="monotone" dataKey="amount" stroke="#d4400f" name="Expense Amount" />
+        <Line type="monotone" dataKey="amount" stroke="#fc2803" name="Expense Amount" />
       </LineChart>
     </ResponsiveContainer>
   </div>
@@ -503,7 +555,7 @@ const getCategoryColor = (category, categoryMapping) => {
         <YAxis />
         <Tooltip />
         <Legend />
-        <Bar dataKey="amount" fill="#d4400f" name="Expense Amount" />
+        <Bar dataKey="amount" fill="#fc2803" name="Expense Amount" />
       </BarChart>
     </ResponsiveContainer>
   </div>
@@ -555,21 +607,21 @@ const getCategoryColor = (category, categoryMapping) => {
   </div>
 
   <div className="graph">
-    <div className="chart-title">Monthly Income vs Expense Comparison</div>
-    <ResponsiveContainer className="recharts-responsive-container" height={400}>
-      <BarChart data={comparisonData()}>
-        <XAxis dataKey="category" />
-        <YAxis />
-        <Tooltip />
-        <Legend />
-        <Bar dataKey="thisMonth" fill="green" name="Income (This Month)" />
-        <Bar dataKey="lastMonth" fill="#d4400f" name="Expense (Last Month)" />
-      </BarChart>
-    </ResponsiveContainer>
-  </div>
+  <div className="chart-title">Income vs Expense (Last 6 Months)</div>
+  <ResponsiveContainer className="recharts-responsive-container" height={400}>
+    <BarChart data={comparisonData()}>
+      <XAxis dataKey="month" />
+      <YAxis />
+      <Tooltip />
+      <Legend />
+      <Bar dataKey="income" fill="green" name="Income" />
+      <Bar dataKey="expense" fill="#fc2803" name="Expense" />
+    </BarChart>
+  </ResponsiveContainer>
+</div>
 
   <div className="graph">
-  <div className="chart-title">Income Vs Expense Top Categories</div>
+  <div className="chart-title">Top Categories Income Vs Expense</div>
   <ResponsiveContainer className="recharts-responsive-container" height={400}>
     <PieChart>
       <Pie
@@ -603,6 +655,35 @@ const getCategoryColor = (category, categoryMapping) => {
   </ResponsiveContainer>
 </div>
 </div>
+<footer className="footer">
+      <div className="footer-container">
+        <div className="footer-section">
+          <h4>About Us</h4>
+          <p>
+            We are dedicated to providing the best solutions for your financial management.
+            Stay organized and in control of your income and expenses.
+          </p>
+        </div>
+        <div className="footer-section">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="/home">Home</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/contact">Contact</a></li>
+            <li><a href="/privacy-policy">Privacy Policy</a></li>
+          </ul>
+        </div>
+        <div className="footer-section">
+          <h4>Contact Us</h4>
+          <p>Email: support@example.com</p>
+          <p>Phone: +1 (555) 123-4567</p>
+          <p>Address: 123 Main Street, City, Country</p>
+        </div>
+      </div>
+      <div className="footer-bottom">
+        <p>&copy; {currentYear} Your Company Name. All Rights Reserved.</p>
+      </div>
+    </footer>
 </div>
     );
 };
