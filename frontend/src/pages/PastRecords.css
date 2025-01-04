@@ -2,7 +2,9 @@
 .past-records-container {
     position: relative;
     font-family: 'Roboto', sans-serif;
-    max-width: 1300px;
+    max-width: 102%; /* Ensure the container is full width */
+    padding: 0 20px; /* Add some padding on the sides */
+    box-sizing: border-box; /* Make sure padding is included in the width */
 }
 
 /* Heading Style */
@@ -18,7 +20,7 @@
 
 /* Table Styling */
 .records-table {
-    width: 102%;
+    width: 102%;  /* Use full width */
     margin-bottom: 50px;
     border-radius: 10px;
     overflow: hidden;

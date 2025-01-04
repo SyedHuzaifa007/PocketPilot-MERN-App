@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FaSignOutAlt, FaChartLine, FaPlusCircle, FaChartBar, FaChartPie } from 'react-icons/fa';
+import { MdSettings } from 'react-icons/md';
 import './Dashboard.css';
 import { useNavigate } from 'react-router-dom'; // React Router v6
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell, Legend } from 'recharts';
@@ -417,25 +418,24 @@ const isValidDate = (dateStr) => {
         <div className="dashboard-container">
             <div>
             <nav className="navbar">
-                <div className="navbar-left">
-                    <h1 className="navbar-heading">Pocket Pilot</h1>
-                </div>
-                <div className="navbar-right">
-                    <div className="dropdown">
-                        <button className="dropdown-toggle">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M9.594 3.94..." />
-                            </svg>
-                        </button>
-                        <div className="dropdown-menu">
-                            <button className="dropdown-item">Settings</button>
-                            <button className="dropdown-item" onClick={handleLogout}>
-                                <FaSignOutAlt /> Logout
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </nav>
+      <div className="navbar-left">
+        <h1 className="navbar-heading">Pocket Pilot</h1>
+        <h6 className="navbar-subheading">Track Your Expenses Effortlessly</h6>
+      </div>
+      <div className="navbar-right">
+        <div className="dropdown">
+          <button className="dropdown-toggle">
+          </button>
+          <div className="dropdown-menu">
+            <button className="dropdown-item"> <MdSettings size={25} color="#080807" />
+            <span>Settings</span></button>
+            <button className="dropdown-item" onClick={handleLogout}>
+              <FaSignOutAlt size={25} color="#080807"/> Logout
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
             </div>
 
             <div className="greeting-message">
@@ -620,7 +620,7 @@ const isValidDate = (dateStr) => {
   </ResponsiveContainer>
 </div>
 
-  <div className="graph">
+<div className="graph">
   <div className="chart-title">Top Categories Income Vs Expense</div>
   <ResponsiveContainer className="recharts-responsive-container" height={400}>
     <PieChart>
@@ -645,43 +645,54 @@ const isValidDate = (dateStr) => {
         ].map((entry, index) => (
           <Cell
             key={`cell-${entry.category}`}
-            fill={getCategoryColor(entry.category, categoryColorMapping)}
+            fill={entry.category === spendingAndIncomeCategories().topIncomeCategory.category ? 'green' : '#fc2803'}
           />
         ))}
       </Pie>
-      <Tooltip />
+      <Tooltip
+        formatter={(value, name) => {
+          // Format the tooltip content to show as "Income: <value>" or "Expense: <value>"
+          if (name === spendingAndIncomeCategories().topIncomeCategory.category) {
+            return [`Income: ${value}`, name];
+          } else if (name === spendingAndIncomeCategories().topExpenseCategory.category) {
+            return [`Expense: ${value}`, name];
+          }
+          return [value, name];
+        }}
+      />
       <Legend layout="vertical" align="right" verticalAlign="middle" />
     </PieChart>
   </ResponsiveContainer>
 </div>
 </div>
+
 <footer className="footer">
       <div className="footer-container">
         <div className="footer-section">
           <h4>About Us</h4>
           <p>
-            We are dedicated to providing the best solutions for your financial management.
-            Stay organized and in control of your income and expenses.
+          Pocket Pilot is dedicated to providing the best solutions for your financial management.
+          Stay organized and in control of your income and expenses.
           </p>
         </div>
         <div className="footer-section">
           <h4>Quick Links</h4>
           <ul>
-            <li><a href="/home">Home</a></li>
-            <li><a href="/about">About</a></li>
-            <li><a href="/contact">Contact</a></li>
-            <li><a href="/privacy-policy">Privacy Policy</a></li>
+            <li><a href="/add-record">Add Record</a></li>
+            <li><a href="/past-records">Past Records</a></li>
+            <li><a href="/generate-report">Generate Report</a></li>
+            <li><a href="/generate-analysis">Generate Analysis</a></li>
+            <li><a href="/logout">Logout</a></li>
           </ul>
         </div>
         <div className="footer-section">
-          <h4>Contact Us</h4>
-          <p>Email: support@example.com</p>
-          <p>Phone: +1 (555) 123-4567</p>
-          <p>Address: 123 Main Street, City, Country</p>
+          <h4>Contact Me</h4>
+          <p>Email: huzaifanau123@gmail.com</p>
         </div>
       </div>
       <div className="footer-bottom">
-        <p>&copy; {currentYear} Your Company Name. All Rights Reserved.</p>
+      <p className='footer-about'>Designed and developed by Syed Huzaifa Mustansar</p>
+        <p>&copy; {currentYear} Pocket Pilot. All Rights Reserved.</p>
       </div>
     </footer>
 </div>

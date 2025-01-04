@@ -37,7 +37,7 @@ const Login = () => {
         <div className="login-container">
             <div className="login-card">
                 <h2>Login</h2>
-                <p>Track your expenses effortlessly</p>
+                <p>Join us to track your expenses effortlessly!</p>
                 <form onSubmit={handleSubmit} className="login-form">
                     {errorMessage && <p className="error-message">{errorMessage}</p>}
                     <div className="form-group">

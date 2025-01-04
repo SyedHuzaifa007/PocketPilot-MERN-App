@@ -14,11 +14,19 @@ const Splash = () => {
             <div className="icon-container">
                 <div className="icon">
                     {/* Animated Icon */}
-                    <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24">
-                        <circle cx="12" cy="12" r="10" fill="none" stroke="#7851a9" strokeWidth="2"/>
-                        <path fill="none" stroke="#7851a9" strokeWidth="2" d="M12 2v10l4 4"/>
-                        <animateTransform attributeName="transform" type="rotate" from="0 12 12" to="360 12 12" dur="1s" repeatCount="indefinite"/>
-                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="10" fill="none" stroke="#316aa3" stroke-width="2"/>
+    <path fill="none" stroke="#316aa3" stroke-width="2" d="M12 2v10l4 4"/>
+
+    <animateTransform
+        attributeName="transform"
+        type="rotate"
+        from="0 12 12"
+        to="360 12 12"
+        dur="2s"
+        repeatCount="indefinite"/>
+</svg>
+
                 </div>
             </div>
             <h1 className="app-name">Pocket Pilot</h1>

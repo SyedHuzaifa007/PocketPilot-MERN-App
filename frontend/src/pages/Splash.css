@@ -32,10 +32,15 @@ body, html {
     justify-content: center;
     align-items: center;
     width: 100%;
+    margin-bottom: 70px; /* Adds space between the icon and app name */
+    margin-right: 50%;
+    margin-left: 25%;
 }
 
 .icon svg {
     animation: rotate 1.5s infinite linear;
+    width: 100px; /* Adjust the size of the icon */
+    height: 100px; /* Adjust the size of the icon */
 }
 
 /* App Name Styling */
@@ -44,7 +49,7 @@ body, html {
     font-weight: 600;
     color: #2c3e50;
     margin-bottom: 20px;
-    background: linear-gradient(45deg, #2c3e50, #7851a9);
+    background: linear-gradient(90deg, #2c3e50, #316aa3);
     -webkit-background-clip: text;
     color: transparent;
     font-family: 'Poppins', sans-serif;
@@ -54,7 +59,7 @@ body, html {
     font-size: 16px;
     font-weight: 600;
     color: #000000;
-    background: linear-gradient(45deg, #2c3e50, #7851a9);
+    background: linear-gradient(90deg, #2c3e50, #316aa3);
     -webkit-background-clip: text;
     color: transparent;
     font-family: 'Poppins', sans-serif;

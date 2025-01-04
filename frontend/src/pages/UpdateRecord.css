@@ -245,7 +245,7 @@
 }
 
 .submit-button1 {
-    margin-top: 20px; /* Adjust margin-top to control the vertical position */
+    margin-top: 70px; /* Adjust margin-top to control the vertical position */
     margin-left: auto; /* Automatically push the button to the center horizontally */
     margin-right: auto; /* Ensure the button is centered with equal space on both sides */
     display: block; /* Make the button a block element to respect margins */
