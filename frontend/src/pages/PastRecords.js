@@ -88,7 +88,7 @@ const PastRecords = () => {
 
         doc.setFontSize(15);
         doc.setFont('helvetica', 'bold');
-        doc.text('\nPast Records', 87, 30);
+        doc.text('\nPast Records', 83, 30);
 
         const tableColumnHeaders = ['Sr. No', 'Name', 'Status', 'Amount (PKR)', 'Quantity', 'Category', 'Date', 'Details'];
         const tableRows = records.map((record, index) => [
@@ -98,7 +98,7 @@ const PastRecords = () => {
             record.amount,
             record.quantity,
             record.category,
-            new Date(record.date).toLocaleDateString(),
+            new Date(record.date).toLocaleDateString('en-GB'),
             record.details,
         ]);
 

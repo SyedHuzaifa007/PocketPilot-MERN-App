@@ -1,12 +1,16 @@
-import React, { useState } from 'react';
-import './GenerateReport.css';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
-import { useNavigate } from 'react-router-dom'; // React Router v6
-// import { set } from 'react-datepicker/dist/date_utils';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { LineChart, BarChart, PieChart, XAxis, YAxis, Tooltip, Legend, Line, Bar, Pie, Cell, CartesianGrid, ResponsiveContainer } from "recharts";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
+import * as XLSX from "xlsx";
+import "./GenerateReport.css";
 
 const GenerateReport = () => {
   const navigate = useNavigate(); // React Router v6
+  const [data, setData] = useState([]);
   const [last7Days, setLast7Days] = useState(false);
   const [last15Days, setLast15Days] = useState(false);
   const [last30Days, setLast30Days] = useState(false);
@@ -16,6 +20,18 @@ const GenerateReport = () => {
   const [graphsOnly, setGraphsOnly] = useState(false);
   const [graphsWithAnalysis, setGraphsWithAnalysis] = useState(false);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch("http://localhost:5000/api/records");
+      const records = await response.json();
+      setData(records);
+    };
+    fetchData();
+  }, []);
+
+  const handleBackButtonClick = () => navigate("/dashboard");
+
+  // Toggle handlers
   const handleLast7DaysChange = () => {
     setLast7Days(!last7Days);
     setLast15Days(false);
@@ -44,11 +60,6 @@ const GenerateReport = () => {
     setLast30Days(false);
   };
 
-  const handleBackButtonClick = () => {
-    navigate('/dashboard'); // Navigate to the dashboard page
-};
-
-  // Ensure that only one of "Graphs Only" or "Graphs with Analysis" can be selected
   const handleGraphsOnlyChange = () => {
     setGraphsOnly(true);
     setGraphsWithAnalysis(false);
@@ -59,15 +70,105 @@ const GenerateReport = () => {
     setGraphsOnly(false);
   };
 
-  const handleGeneratePDF = () => {
-    // Logic to generate PDF report
-    alert('Generating PDF Report...');
+  const filterDataByDateRange = (range) => {
+    const now = new Date();
+    const rangeStart = new Date();
+    rangeStart.setDate(now.getDate() - range);
+
+    return data.filter((record) => {
+      const recordDate = new Date(record.date);
+      return recordDate >= rangeStart && recordDate <= now;
+    });
   };
 
-  const handleGenerateExcel = () => {
-    // Logic to generate Excel report
-    alert('Generating Excel Report...');
+  const filterDataByCustomDate = () => {
+    return data.filter((record) => {
+      const recordDate = new Date(record.date);
+      return recordDate >= new Date(startDate) && recordDate <= new Date(endDate);
+    });
   };
+
+  const getFilteredData = () => {
+    if (last7Days) return filterDataByDateRange(7);
+    if (last15Days) return filterDataByDateRange(15);
+    if (last30Days) return filterDataByDateRange(30);
+    if (customDate) return filterDataByCustomDate();
+    return data;
+  };
+
+  const generateGraphs = () => {
+    const filteredData = getFilteredData();
+    // Create graphs using Recharts or any library with filteredData
+    // The detailed graph generation logic would be similar to the one provided earlier
+    return filteredData; // Placeholder return for filteredData
+  };
+
+  const generatePDF = () => {
+    const filteredData = getFilteredData();
+    const doc = new jsPDF('p', 'mm', 'a4');
+            const timestamp = new Date().toISOString().replace(/[-:]/g, '').replace('T', '_').split('.')[0];
+            const documentId = Math.floor(1000 + Math.random() * 9000);
+    
+            doc.setFontSize(10);
+            doc.text(`File ID: ${documentId}`, 10, 10);
+            const date = new Date().toLocaleDateString('en-GB');  
+            const time = new Date().toLocaleTimeString();   
+        
+            doc.text(`Date: ${date}`, 10, 20); 
+            doc.text(`Time: ${time}`, 10, 25); 
+    
+            doc.setFontSize(15);
+            doc.setFont('helvetica', 'bold');
+            doc.text('\nRecords History', 83, 30);
+    
+            const tableColumnHeaders = ['Sr. No', 'Name', 'Status', 'Amount (PKR)', 'Quantity', 'Category', 'Date', 'Details'];
+            const tableRows = filteredData.map((record, index) => [
+                index + 1,
+                record.name,
+                record.status,
+                record.amount,
+                record.quantity,
+                record.category,
+                new Date(record.date).toLocaleDateString('en-GB'),
+                record.details,
+            ]);
+    
+            doc.autoTable({
+                head: [tableColumnHeaders],
+                body: tableRows,
+                startY: 40,
+            });
+    
+            const pageCount = doc.internal.getNumberOfPages();
+            doc.setFontSize(8);
+            for (let i = 1; i <= pageCount; i++) {
+                doc.setPage(i);
+                doc.text(`Page ${i} of ${pageCount}`, doc.internal.pageSize.width / 2, doc.internal.pageSize.height - 10, {
+                    align: 'center',
+                });
+            }
+    
+
+    if (graphsOnly || graphsWithAnalysis) {
+      doc.addPage();
+      doc.setFontSize(15);
+      doc.setFont('helvetica', 'bold');
+      doc.text("Detailed Analysis", 80, 20);
+      // Add graph content here, or export them as images and include them in the PDF
+    }
+
+    const fileName = `${documentId}_${timestamp}.pdf`;
+    doc.save(fileName);
+  };
+
+  const generateExcel = () => {
+    const filteredData = getFilteredData();
+    const worksheet = XLSX.utils.json_to_sheet(filteredData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Report");
+    XLSX.writeFile(workbook, "report.xlsx");
+  };
+
 
   return (
     <div className="generate-report">
@@ -177,8 +278,8 @@ const GenerateReport = () => {
 
         {/* Buttons */}
         <div className="buttons">
-          <button onClick={handleGeneratePDF}>Generate PDF Report</button>
-          <button onClick={handleGenerateExcel}>Generate Excel Report</button>
+          <button onClick={generatePDF}>Generate PDF Report</button>
+          <button onClick={generateExcel}>Generate Excel Report</button>
         </div>
       </div>
     </div>
